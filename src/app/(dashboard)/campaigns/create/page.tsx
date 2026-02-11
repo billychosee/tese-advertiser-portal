@@ -87,7 +87,14 @@ const CreateCampaignPage: React.FC = () => {
   };
 
   return (
-    <DashboardLayout title="Create Campaign">
+    <DashboardLayout
+      title="Create Campaign"
+      breadcrumbs={[
+        { label: "Home", href: "/dashboard", icon: Icons.Home },
+        { label: "Campaigns", href: "/campaigns", icon: Icons.Campaign },
+        { label: "Create Campaign", icon: Icons.Plus },
+      ]}
+    >
       {/* Steps */}
       <div className="flex items-center gap-2 mb-8">
         {[1, 2, 3, 4].map((s) => (
@@ -152,7 +159,9 @@ const CreateCampaignPage: React.FC = () => {
               <div className="flex items-center justify-center w-12 h-12 mb-4 bg-primary/10 rounded-lg">
                 <Icons.Users size={24} className="text-primary" />
               </div>
-              <h3 className="font-semibold text-foreground">Creator Targeted</h3>
+              <h3 className="font-semibold text-foreground">
+                Creator Targeted
+              </h3>
               <p className="text-sm text-muted-foreground mt-1">
                 Select specific TESE creators for your ads
               </p>
@@ -286,7 +295,10 @@ const CreateCampaignPage: React.FC = () => {
               Upload Video (Max 30 secs)
             </label>
             <div className="border-2 border-dashed border-input rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer bg-background">
-              <Icons.Upload className="mx-auto text-muted-foreground mb-2" size={24} />
+              <Icons.Upload
+                className="mx-auto text-muted-foreground mb-2"
+                size={24}
+              />
               <p className="text-sm text-muted-foreground">
                 Click to upload or drag and drop
               </p>
@@ -396,7 +408,9 @@ const CreateCampaignPage: React.FC = () => {
 
           {/* Budget Calculator */}
           <div className="mt-6 p-4 bg-secondary rounded-lg">
-            <h4 className="font-medium text-foreground mb-2">Budget Estimate</h4>
+            <h4 className="font-medium text-foreground mb-2">
+              Budget Estimate
+            </h4>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <p className="text-2xl font-bold text-foreground">

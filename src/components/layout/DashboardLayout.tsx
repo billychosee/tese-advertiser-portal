@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { LucideIcon } from "lucide-react";
 import { cn } from "@/utils";
 import { SidebarProvider, useSidebar } from "./SidebarContext";
 import Sidebar from "./Sidebar";
@@ -9,7 +10,11 @@ import TopBar from "./TopBar";
 interface DashboardLayoutProps {
   children: React.ReactNode;
   title?: string;
-  breadcrumbs?: { label: string; href?: string }[];
+  breadcrumbs?: {
+    label: string;
+    href?: string;
+    icon?: LucideIcon;
+  }[];
   className?: string;
 }
 
