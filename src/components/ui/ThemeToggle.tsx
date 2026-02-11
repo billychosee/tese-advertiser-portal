@@ -15,8 +15,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
     <button
       onClick={toggleTheme}
       className={cn(
-        "p-2 rounded-lg transition-colors duration-200",
-        "hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+        "p-2.5 rounded-full transition-colors duration-200 bg-secondary hover:bg-secondary/80",
         className,
       )}
       aria-label="Toggle theme"

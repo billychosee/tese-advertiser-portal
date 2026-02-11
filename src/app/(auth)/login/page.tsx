@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
-import { Icons } from "@/components/ui/Icons";
-import OnboardingWizard from "@/components/onboarding/OnboardingWizard";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { cn } from "@/utils";
 
@@ -16,7 +14,6 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("demo123");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +23,7 @@ const LoginPage: React.FC = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       if (email === "demo@example.com" && password === "demo123") {
-        setShowOnboarding(true);
+        router.push("/dashboard");
       } else {
         setError("Invalid email or password");
       }
@@ -35,15 +32,6 @@ const LoginPage: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleDemoLogin = () => {
-    setShowOnboarding(true);
-  };
-
-  const handleOnboardingComplete = () => {
-    setShowOnboarding(false);
-    router.push("/dashboard");
   };
 
   return (
@@ -134,10 +122,6 @@ const LoginPage: React.FC = () => {
           </p>
         </div>
       </Card>
-
-      {showOnboarding && (
-        <OnboardingWizard onComplete={handleOnboardingComplete} />
-      )}
     </>
   );
 };

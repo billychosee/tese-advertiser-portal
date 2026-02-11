@@ -48,10 +48,10 @@ const TopBar: React.FC<TopBarProps> = ({ title }) => {
           </button>
 
           {/* Notifications */}
-          <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors">
-            <Icons.Eye size={20} />
+          <button className="relative p-2.5 rounded-full bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground transition-colors">
+            <Icons.Bell size={20} />
             {notifications > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 bg-destructive text-white text-xs rounded-full flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-destructive text-white text-xs rounded-full flex items-center justify-center">
                 {notifications}
               </span>
             )}
@@ -59,7 +59,7 @@ const TopBar: React.FC<TopBarProps> = ({ title }) => {
 
           {/* User Menu */}
           <div className="relative">
-            <button className="flex items-center gap-2 p-1 rounded-lg hover:bg-secondary transition-colors">
+            <button className="flex items-center gap-2 p-1 rounded-full bg-secondary hover:bg-secondary/80 transition-colors">
               <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-primary">JD</span>
               </div>

@@ -17,7 +17,7 @@ import { Icons } from "@/components/ui/Icons";
 import { dashboardApi } from "@/services/api";
 import { formatCurrency, formatNumber, cn } from "@/utils";
 
-// Measurement Card with theme-aware colors (using project colors: green, red, gold)
+// Measurement Card with theme-aware colors (white cards, colored icons)
 const MeasurementCard = ({
   title,
   value,
@@ -25,60 +25,60 @@ const MeasurementCard = ({
   icon: Icon,
   isCurrency = false,
 }: any) => {
-  // Project color configurations
+  // Project color configurations - only icons are colored
   const colorConfig = {
     green: {
-      dark: {
-        bg: "dark:bg-gradient-to-br dark:from-green-900/40 dark:to-transparent",
-        border: "dark:border-green-500/30",
-        text: "dark:text-green-400",
-        iconBg: "dark:bg-green-500/20 dark:border-green-500/30",
-        title: "dark:text-green-400/70",
-        value: "dark:text-green-300",
-      },
       light: {
-        bg: "bg-green-50",
-        border: "border-green-200",
-        text: "text-green-800",
-        iconBg: "bg-green-100 border-green-200",
-        title: "text-green-700",
-        value: "text-green-900",
+        bg: "bg-white",
+        border: "border-gray-200",
+        iconBg: "bg-green-100",
+        icon: "text-green-600",
+        title: "text-gray-600",
+        value: "text-gray-900",
+      },
+      dark: {
+        bg: "dark:bg-gray-800",
+        border: "dark:border-gray-700",
+        iconBg: "dark:bg-green-500/20",
+        icon: "dark:text-green-400",
+        title: "dark:text-gray-400",
+        value: "dark:text-white",
       },
     },
     red: {
-      dark: {
-        bg: "dark:bg-gradient-to-br dark:from-red-900/40 dark:to-transparent",
-        border: "dark:border-red-500/30",
-        text: "dark:text-red-400",
-        iconBg: "dark:bg-red-500/20 dark:border-red-500/30",
-        title: "dark:text-red-400/70",
-        value: "dark:text-red-300",
-      },
       light: {
-        bg: "bg-red-50",
-        border: "border-red-200",
-        text: "text-red-800",
-        iconBg: "bg-red-100 border-red-200",
-        title: "text-red-700",
-        value: "text-red-900",
+        bg: "bg-white",
+        border: "border-gray-200",
+        iconBg: "bg-red-100",
+        icon: "text-red-600",
+        title: "text-gray-600",
+        value: "text-gray-900",
+      },
+      dark: {
+        bg: "dark:bg-gray-800",
+        border: "dark:border-gray-700",
+        iconBg: "dark:bg-red-500/20",
+        icon: "dark:text-red-400",
+        title: "dark:text-gray-400",
+        value: "dark:text-white",
       },
     },
     gold: {
-      dark: {
-        bg: "dark:bg-gradient-to-br dark:from-yellow-900/40 dark:to-transparent",
-        border: "dark:border-yellow-500/30",
-        text: "dark:text-yellow-400",
-        iconBg: "dark:bg-yellow-500/20 dark:border-yellow-500/30",
-        title: "dark:text-yellow-400/70",
-        value: "dark:text-yellow-300",
-      },
       light: {
-        bg: "bg-yellow-50",
-        border: "border-yellow-200",
-        text: "text-yellow-800",
-        iconBg: "bg-yellow-100 border-yellow-200",
-        title: "text-yellow-700",
-        value: "text-yellow-900",
+        bg: "bg-white",
+        border: "border-gray-200",
+        iconBg: "bg-amber-100",
+        icon: "text-amber-600",
+        title: "text-gray-600",
+        value: "text-gray-900",
+      },
+      dark: {
+        bg: "dark:bg-gray-800",
+        border: "dark:border-gray-700",
+        iconBg: "dark:bg-amber-500/20",
+        icon: "dark:text-amber-400",
+        title: "dark:text-gray-400",
+        value: "dark:text-white",
       },
     },
   };
@@ -89,28 +89,28 @@ const MeasurementCard = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[24px] border p-5 transition-all hover:scale-[1.02] cursor-pointer",
-        config.dark.bg,
-        config.dark.border,
+        "relative overflow-hidden rounded-2xl border p-5 transition-all hover:scale-[1.02] cursor-pointer",
         config.light.bg,
         config.light.border,
+        config.dark.bg,
+        config.dark.border,
       )}
     >
       <div className="flex items-center gap-3 mb-4">
         <div
           className={cn(
-            "p-2.5 rounded-full border backdrop-blur-md",
-            config.dark.iconBg,
+            "p-2.5 rounded-full",
             config.light.iconBg,
+            config.dark.iconBg,
           )}
         >
-          <Icon size={16} className={cn(config.dark.text, config.light.text)} />
+          <Icon size={18} className={cn(config.light.icon, config.dark.icon)} />
         </div>
         <p
           className={cn(
-            "text-xs font-bold uppercase tracking-widest",
-            config.dark.title,
+            "text-xs font-semibold uppercase tracking-wide",
             config.light.title,
+            config.dark.title,
           )}
         >
           {title}
@@ -118,9 +118,9 @@ const MeasurementCard = ({
       </div>
       <h3
         className={cn(
-          "text-2xl font-bold tracking-tighter",
-          config.dark.value,
+          "text-2xl font-bold tracking-tight",
           config.light.value,
+          config.dark.value,
         )}
       >
         {isCurrency ? formatCurrency(value) : formatNumber(value)}
@@ -164,22 +164,6 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-secondary p-1.5 rounded-2xl border border-border backdrop-blur-xl">
-            {(["daily", "weekly", "yearly"] as const).map((p) => (
-              <button
-                key={p}
-                onClick={() => setPeriod(p)}
-                className={cn(
-                  "px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-xl transition-all duration-300",
-                  period === p
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "text-muted-foreground hover:text-foreground",
-                )}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
         </header>
 
         {/* Action Grid: Wallet & Ad Campaign Creation */}
@@ -197,18 +181,18 @@ const DashboardPage = () => {
             <div className="space-y-5">
               <div className="relative group">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-black tracking-tighter">
-                  R
+                  USD
                 </span>
                 <input
                   type="number"
                   placeholder="Enter Amount"
-                  className="w-full bg-background border border-input rounded-[20px] py-5 pl-10 pr-4 text-foreground font-bold focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all"
+                  className="w-full bg-background border border-input rounded-[20px] py-5 pl-14 pr-4 text-foreground font-bold focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all"
                   value={topUpAmount}
                   onChange={(e) => setTopUpAmount(e.target.value)}
                 />
               </div>
               <Button className="w-full bg-primary hover:bg-primary/90 py-8 rounded-[20px] font-black uppercase tracking-[0.2em] text-[11px] transition-all hover:scale-[1.01] active:scale-[0.98]">
-                Pay Using Smartpay
+                Pay Using Smatpay
               </Button>
             </div>
           </Card>
@@ -311,15 +295,22 @@ const DashboardPage = () => {
                 Real-time Data Visualization
               </p>
             </div>
-            <div className="flex gap-6 text-[10px] font-black tracking-widest uppercase text-muted-foreground">
-              <span className="flex items-center gap-2 text-primary">
-                <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]" />{" "}
-                Reach
-              </span>
-              <span className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-muted-foreground/20" />{" "}
-                Clicks
-              </span>
+            {/* Period Toggle */}
+            <div className="flex items-center gap-1 bg-secondary p-1 rounded-xl border border-border">
+              {(["daily", "weekly", "yearly"] as const).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => setPeriod(p)}
+                  className={cn(
+                    "px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all duration-200",
+                    period === p
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {p}
+                </button>
+              ))}
             </div>
           </div>
           <div className="h-[450px] w-full">
