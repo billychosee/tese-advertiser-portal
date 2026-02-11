@@ -29,50 +29,28 @@ const Sidebar: React.FC = () => {
   return (
     <aside
       className={cn(
-        "fixed left-0 top-0 z-40 h-screen bg-card border-r border-border transition-all duration-300",
-        isCollapsed ? "w-16" : "w-64",
+        "fixed left-0 top-0 z-50 h-screen transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+        "bg-card border-r border-border shadow-[20px_0_40px_rgba(0,0,0,0.02)]",
+        isCollapsed ? "w-20" : "w-72",
       )}
     >
       <div className="flex h-full flex-col">
-        {/* Logo */}
-        <div className="flex h-16 items-center justify-between px-4 border-b border-border">
-          {!isCollapsed ? (
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <img
-                src="/Tese-Icon.png"
-                alt="Tese Logo"
-                className="w-8 h-8 object-contain"
-              />
-              <span className="font-semibold text-foreground">TESE Ads</span>
-            </Link>
-          ) : (
-            <Link href="/dashboard" className="flex justify-center">
-              <img
-                src="/Tese-Icon.png"
-                alt="Tese Logo"
-                className="w-8 h-8 object-contain"
-              />
-            </Link>
-          )}
-          <button
-            onClick={toggleSidebar}
-            className={cn(
-              "p-1.5 rounded-lg hover:bg-secondary text-muted-foreground transition-colors",
-              isCollapsed && "mx-auto",
+        {/* Logo Section - Clean & Geometric */}
+        <div className="h-24 flex items-center px-6">
+          <Link href="/dashboard" className="flex items-center gap-3.5 group">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
+              <Icons.Campaign className="text-primary-foreground" size={20} />
+            </div>
+            {!isCollapsed && (
+              <span className="font-bold text-lg tracking-tight text-foreground">
+                Tese<span className="text-primary">Ads</span>
+              </span>
             )}
-          >
-            <Icons.ChevronRight
-              size={20}
-              className={cn(
-                "transition-transform",
-                isCollapsed ? "rotate-180" : "",
-              )}
-            />
-          </button>
+          </Link>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+        {/* Navigation - Responsive Active State */}
+        <nav className="flex-1 px-4 space-y-1.5 mt-2">
           {navItems.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");
@@ -83,53 +61,105 @@ const Sidebar: React.FC = () => {
                 key={item.name}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
+                  "group relative flex items-center h-12 rounded-xl transition-all duration-300",
                   isActive
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground",
-                  isCollapsed && "justify-center",
+                    ? "text-primary bg-secondary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary",
+                  isCollapsed ? "justify-center" : "px-4",
                 )}
               >
-                <span
+                {/* Active Nav Item Left Bar */}
+                {isActive && (
+                  <div className="absolute left-0 top-3 bottom-3 w-1 bg-primary rounded-r-full" />
+                )}
+
+                <div
                   className={cn(
-                    "flex items-center justify-center w-5 h-5",
-                    isActive ? "text-primary" : "text-muted-foreground",
+                    "relative z-10 transition-colors",
+                    isActive ? "text-primary" : "group-hover:text-foreground",
                   )}
                 >
                   <Icon size={20} />
-                </span>
+                </div>
+
                 {!isCollapsed && (
-                  <span className="font-medium">{item.name}</span>
+                  <span
+                    className={cn(
+                      "relative z-10 ml-3.5 text-[13px] font-semibold tracking-tight transition-opacity",
+                      isActive ? "opacity-100" : "opacity-100",
+                    )}
+                  >
+                    {item.name}
+                  </span>
+                )}
+
+                {/* Notification Badge Style from reference */}
+                {item.name === "Campaigns" && !isCollapsed && (
+                  <span className="ml-auto relative z-10 bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">
+                    12
+                  </span>
                 )}
               </Link>
             );
           })}
         </nav>
 
-        {/* User */}
-        <div className="border-t border-border p-4">
+        {/* Logout Button */}
+        <div className="p-4 border-t border-border mt-auto">
           <div
             className={cn(
-              "flex items-center",
-              isCollapsed ? "justify-center" : "gap-3",
+              "flex items-center gap-2 pl-1 p-2 rounded-2xl bg-secondary transition-colors cursor-pointer",
+              isCollapsed ? "justify-center" : "pl-2",
             )}
           >
-            <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-secondary-foreground">
-                JD
-              </span>
-            </div>
-            {!isCollapsed && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">
-                  John Doe
-                </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  demo@example.com
-                </p>
+            <button
+              className={cn(
+                "group relative flex items-center h-10 rounded-xl transition-all duration-300",
+                "text-muted-foreground hover:text-primary",
+                isCollapsed ? "w-full justify-center" : "",
+              )}
+              onClick={() => console.log("Logout")}
+            >
+              {/* Left Bar Indicator on Hover */}
+              <div className="absolute left-0 top-2 bottom-2 w-1 bg-primary rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity" />
+
+              <div
+                className={cn(
+                  "relative z-10 transition-colors group-hover:text-primary",
+                )}
+              >
+                <Icons.Logout size={20} />
               </div>
+
+              {!isCollapsed && (
+                <span
+                  className={cn(
+                    "relative z-10 ml-3 text-[13px] font-semibold tracking-tight transition-colors group-hover:text-primary",
+                  )}
+                >
+                  Logout
+                </span>
+              )}
+            </button>
+
+            {!isCollapsed && (
+              <button
+                onClick={toggleSidebar}
+                className="ml-auto p-1.5 text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Icons.ChevronRight size={16} className="rotate-180" />
+              </button>
             )}
           </div>
+
+          {isCollapsed && (
+            <button
+              onClick={toggleSidebar}
+              className="w-full flex justify-center mt-2 text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Icons.ChevronRight size={20} />
+            </button>
+          )}
         </div>
       </div>
     </aside>
