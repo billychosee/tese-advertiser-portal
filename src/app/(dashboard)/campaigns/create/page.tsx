@@ -280,9 +280,27 @@ const CreateCampaignPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Video Upload */}
           <div className="mt-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Placement
+              Upload Video (Max 30 secs)
+            </label>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
+              <Icons.Upload className="mx-auto text-gray-400 mb-2" size={24} />
+              <p className="text-sm text-gray-500">
+                Click to upload or drag and drop
+              </p>
+              <p className="text-xs text-gray-400 mt-1">
+                MP4, MOV up to 50MB (Max 30 seconds)
+              </p>
+              <input type="file" accept="video/*" className="hidden" />
+            </div>
+          </div>
+
+          {/* Placement */}
+          <div className="mt-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Select Placement
             </label>
             <div className="flex gap-4">
               {(["pre_roll", "mid_roll"] as PlacementType[]).map(
