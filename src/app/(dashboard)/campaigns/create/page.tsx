@@ -97,8 +97,8 @@ const CreateCampaignPage: React.FC = () => {
               className={cn(
                 "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors",
                 step >= s
-                  ? "bg-primary-600 text-white"
-                  : "bg-gray-200 text-gray-600",
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground",
               )}
             >
               {s}
@@ -107,7 +107,7 @@ const CreateCampaignPage: React.FC = () => {
               <div
                 className={cn(
                   "flex-1 h-1 rounded",
-                  step > s ? "bg-primary-600" : "bg-gray-200",
+                  step > s ? "bg-primary" : "bg-muted",
                 )}
               />
             )}
@@ -128,15 +128,15 @@ const CreateCampaignPage: React.FC = () => {
               className={cn(
                 "p-6 border-2 rounded-xl text-left transition-colors",
                 campaignType === "category"
-                  ? "border-primary-600 bg-primary-50"
-                  : "border-gray-200 hover:border-gray-300",
+                  ? "border-primary bg-primary/10"
+                  : "border-border hover:border-primary/50",
               )}
             >
-              <div className="flex items-center justify-center w-12 h-12 mb-4 bg-primary-100 rounded-lg">
-                <Icons.Filter size={24} className="text-primary-600" />
+              <div className="flex items-center justify-center w-12 h-12 mb-4 bg-primary/10 rounded-lg">
+                <Icons.Filter size={24} className="text-primary" />
               </div>
-              <h3 className="font-semibold text-gray-900">Category Based</h3>
-              <p className="text-sm text-gray-500 mt-1">
+              <h3 className="font-semibold text-foreground">Category Based</h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 Target ads to specific TESE content categories
               </p>
             </button>
@@ -145,15 +145,15 @@ const CreateCampaignPage: React.FC = () => {
               className={cn(
                 "p-6 border-2 rounded-xl text-left transition-colors",
                 campaignType === "creator"
-                  ? "border-primary-600 bg-primary-50"
-                  : "border-gray-200 hover:border-gray-300",
+                  ? "border-primary bg-primary/10"
+                  : "border-border hover:border-primary/50",
               )}
             >
-              <div className="flex items-center justify-center w-12 h-12 mb-4 bg-primary-100 rounded-lg">
-                <Icons.Users size={24} className="text-primary-600" />
+              <div className="flex items-center justify-center w-12 h-12 mb-4 bg-primary/10 rounded-lg">
+                <Icons.Users size={24} className="text-primary" />
               </div>
-              <h3 className="font-semibold text-gray-900">Creator Targeted</h3>
-              <p className="text-sm text-gray-500 mt-1">
+              <h3 className="font-semibold text-foreground">Creator Targeted</h3>
+              <p className="text-sm text-muted-foreground mt-1">
                 Select specific TESE creators for your ads
               </p>
             </button>
@@ -193,14 +193,14 @@ const CreateCampaignPage: React.FC = () => {
                     className={cn(
                       "p-4 border rounded-lg text-left transition-colors",
                       selectedCategories.includes(item.id)
-                        ? "border-primary-600 bg-primary-50"
-                        : "border-gray-200 hover:border-gray-300",
+                        ? "border-primary bg-primary/10"
+                        : "border-input hover:border-primary/50",
                     )}
                   >
-                    <p className="font-medium text-gray-900 truncate">
+                    <p className="font-medium text-foreground truncate">
                       {item.name}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {item.creatorCount} creators
                     </p>
                   </button>
@@ -212,14 +212,14 @@ const CreateCampaignPage: React.FC = () => {
                     className={cn(
                       "p-4 border rounded-lg text-left transition-colors",
                       selectedCreators.includes(item.id)
-                        ? "border-primary-600 bg-primary-50"
-                        : "border-gray-200 hover:border-gray-300",
+                        ? "border-primary bg-primary/10"
+                        : "border-input hover:border-primary/50",
                     )}
                   >
-                    <p className="font-medium text-gray-900 truncate">
+                    <p className="font-medium text-foreground truncate">
                       {item.channelName}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {item.subscriberCount} subscribers
                     </p>
                   </button>
@@ -267,14 +267,14 @@ const CreateCampaignPage: React.FC = () => {
               placeholder="https://example.com"
             />
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Description
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your campaign"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-background text-foreground"
                 rows={3}
               />
             </div>
@@ -282,15 +282,15 @@ const CreateCampaignPage: React.FC = () => {
 
           {/* Video Upload */}
           <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Upload Video (Max 30 secs)
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer">
-              <Icons.Upload className="mx-auto text-gray-400 mb-2" size={24} />
-              <p className="text-sm text-gray-500">
+            <div className="border-2 border-dashed border-input rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer bg-background">
+              <Icons.Upload className="mx-auto text-muted-foreground mb-2" size={24} />
+              <p className="text-sm text-muted-foreground">
                 Click to upload or drag and drop
               </p>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-muted-foreground/70 mt-1">
                 MP4, MOV up to 50MB (Max 30 seconds)
               </p>
               <input type="file" accept="video/*" className="hidden" />
@@ -299,7 +299,7 @@ const CreateCampaignPage: React.FC = () => {
 
           {/* Placement */}
           <div className="mt-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-foreground mb-2">
               Select Placement
             </label>
             <div className="flex gap-4">
@@ -311,8 +311,8 @@ const CreateCampaignPage: React.FC = () => {
                     className={cn(
                       "px-4 py-2 rounded-lg border font-medium transition-colors",
                       placements.includes(placement)
-                        ? "border-primary-600 bg-primary-50 text-primary-600"
-                        : "border-gray-200 hover:border-gray-300",
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-input hover:border-primary",
                     )}
                   >
                     {placement === "pre_roll" ? "Pre Roll" : "Mid Roll"}
@@ -355,7 +355,7 @@ const CreateCampaignPage: React.FC = () => {
               onChange={(e) => setBudget(parseFloat(e.target.value))}
               placeholder="Enter budget"
               leftIcon={
-                <span className="text-gray-400 dark:text-gray-500 text-sm font-bold">
+                <span className="text-muted-foreground dark:text-muted-foreground text-sm font-bold">
                   $
                 </span>
               }
@@ -368,19 +368,19 @@ const CreateCampaignPage: React.FC = () => {
               placeholder="Number of days"
             />
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-foreground mb-2">
                 Target Type
               </label>
               <div className="relative">
                 <select
                   value={targetType}
                   onChange={(e) => setTargetType(e.target.value as TargetType)}
-                  className="w-full px-4 py-2.5 pr-10 border border-gray-300 rounded-lg appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                  className="w-full px-4 py-2.5 pr-10 border border-input rounded-lg appearance-none bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring text-foreground"
                 >
                   <option value="impressions">Impressions</option>
                   <option value="clicks">Clicks</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-muted-foreground">
                   <Icons.ChevronDown size={16} />
                 </div>
               </div>
@@ -395,32 +395,32 @@ const CreateCampaignPage: React.FC = () => {
           </div>
 
           {/* Budget Calculator */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h4 className="font-medium text-gray-900 mb-2">Budget Estimate</h4>
+          <div className="mt-6 p-4 bg-secondary rounded-lg">
+            <h4 className="font-medium text-foreground mb-2">Budget Estimate</h4>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-foreground">
                   {calculateBudget().toLocaleString("en-ZA", {
                     style: "currency",
                     currency: "USD",
                   })}
                 </p>
-                <p className="text-sm text-gray-500">Estimated Cost</p>
+                <p className="text-sm text-muted-foreground">Estimated Cost</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-foreground">
                   {durationDays}
                 </p>
-                <p className="text-sm text-gray-500">Days</p>
+                <p className="text-sm text-muted-foreground">Days</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-foreground">
                   {(calculateBudget() / durationDays).toLocaleString("en-ZA", {
                     style: "currency",
                     currency: "USD",
                   })}
                 </p>
-                <p className="text-sm text-gray-500">Daily Budget</p>
+                <p className="text-sm text-muted-foreground">Daily Budget</p>
               </div>
             </div>
           </div>

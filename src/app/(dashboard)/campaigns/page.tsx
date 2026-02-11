@@ -16,9 +16,13 @@ const CampaignsPage: React.FC = () => {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
+    null,
+  );
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<CampaignStatus | "all">("all");
+  const [statusFilter, setStatusFilter] = useState<CampaignStatus | "all">(
+    "all",
+  );
 
   useEffect(() => {
     loadCampaigns();
@@ -64,18 +68,18 @@ const CampaignsPage: React.FC = () => {
   const getStatusColor = (status: CampaignStatus) => {
     switch (status) {
       case "active":
-        return "bg-green-100 text-green-800";
+        return "bg-primary/10 text-primary";
       case "paused":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-accent/10 text-accent";
       case "pending":
-        return "bg-blue-100 text-blue-800";
+        return "bg-secondary text-secondary-foreground";
       case "completed":
-        return "bg-gray-100 text-gray-800";
+        return "bg-muted text-muted-foreground";
       case "suspended":
       case "deleted":
-        return "bg-red-100 text-red-800";
+        return "bg-destructive/10 text-destructive";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -125,14 +129,28 @@ const CampaignsPage: React.FC = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         {[
-          { label: "Active", value: campaigns.filter((c) => c.status === "active").length },
-          { label: "Paused", value: campaigns.filter((c) => c.status === "paused").length },
-          { label: "Pending", value: campaigns.filter((c) => c.status === "pending").length },
-          { label: "Completed", value: campaigns.filter((c) => c.status === "completed").length },
+          {
+            label: "Active",
+            value: campaigns.filter((c) => c.status === "active").length,
+          },
+          {
+            label: "Paused",
+            value: campaigns.filter((c) => c.status === "paused").length,
+          },
+          {
+            label: "Pending",
+            value: campaigns.filter((c) => c.status === "pending").length,
+          },
+          {
+            label: "Completed",
+            value: campaigns.filter((c) => c.status === "completed").length,
+          },
         ].map((stat) => (
           <Card key={stat.label} padding="sm">
             <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-            <p className="text-sm text-muted-foreground">{stat.label} Campaigns</p>
+            <p className="text-sm text-muted-foreground">
+              {stat.label} Campaigns
+            </p>
           </Card>
         ))}
       </div>
@@ -177,7 +195,9 @@ const CampaignsPage: React.FC = () => {
                 >
                   <td className="py-4 px-4">
                     <div>
-                      <p className="font-medium text-foreground">{campaign.name}</p>
+                      <p className="font-medium text-foreground">
+                        {campaign.name}
+                      </p>
                       <p className="text-sm text-muted-foreground">
                         {formatDate(campaign.createdAt)}
                       </p>
@@ -187,7 +207,7 @@ const CampaignsPage: React.FC = () => {
                     <span
                       className={cn(
                         "px-3 py-1 rounded-full text-xs font-medium",
-                        getStatusColor(campaign.status)
+                        getStatusColor(campaign.status),
                       )}
                     >
                       {campaign.status}
@@ -273,7 +293,7 @@ const CampaignsPage: React.FC = () => {
               <span
                 className={cn(
                   "px-3 py-1 rounded-full text-xs font-medium",
-                  getStatusColor(selectedCampaign.status)
+                  getStatusColor(selectedCampaign.status),
                 )}
               >
                 {selectedCampaign.status}
@@ -313,7 +333,9 @@ const CampaignsPage: React.FC = () => {
 
             {/* Target URL */}
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Target URL</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                Target URL
+              </p>
               <a
                 href={selectedCampaign.targetUrl}
                 target="_blank"
@@ -391,7 +413,8 @@ const CampaignsPage: React.FC = () => {
         <div className="space-y-4">
           <p className="text-muted-foreground">
             Are you sure you want to delete{" "}
-            <strong>{selectedCampaign?.name}</strong>? This action cannot be undone.
+            <strong>{selectedCampaign?.name}</strong>? This action cannot be
+            undone.
           </p>
           <div className="flex gap-3">
             <Button
