@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/utils";
 import { Icons } from "@/components/ui/Icons";
 import { useSidebar } from "./SidebarContext";
+import { useTheme } from "@/hooks/useTheme";
 
 interface NavItem {
   name: string;
@@ -25,6 +26,10 @@ const navItems: NavItem[] = [
 const Sidebar: React.FC = () => {
   const pathname = usePathname();
   const { isCollapsed, toggleSidebar } = useSidebar();
+  const { theme } = useTheme();
+
+  const fullLogo =
+    theme === "dark" ? "/Tese-Light-Logo.png" : "/Tese-Dark-logo.png";
 
   return (
     <aside
@@ -36,16 +41,16 @@ const Sidebar: React.FC = () => {
     >
       <div className="flex h-full flex-col">
         {/* Logo Section - Clean & Geometric */}
-        <div className="h-24 flex items-center px-6">
-          <Link href="/dashboard" className="flex items-center gap-3.5 group">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20 group-hover:rotate-6 transition-transform">
-              <Icons.Campaign className="text-primary-foreground" size={20} />
-            </div>
-            {!isCollapsed && (
-              <span className="font-bold text-lg tracking-tight text-foreground">
-                Tese<span className="text-primary">Ads</span>
-              </span>
-            )}
+        <div className="h-20 flex items-center px-6 border-b border-border">
+          <Link href="/dashboard" className="flex items-center w-full group">
+            <img
+              src={isCollapsed ? "/Tese-Icon.png" : fullLogo}
+              alt="Tese Logo"
+              className={cn(
+                "object-contain transition-all duration-300",
+                isCollapsed ? "w-20 h-16" : "w-40 h-24"
+              )}
+            />
           </Link>
         </div>
 
