@@ -3,6 +3,7 @@
 import {
   Home,
   Wallet,
+  LayoutDashboard,
   Target,
   BarChart3,
   Users,
@@ -79,6 +80,7 @@ import {
 export const Icons = {
   Home: Home,
   Wallet: Wallet,
+  Dashboard: LayoutDashboard,
   Campaign: Target,
   Reports: BarChart3,
   Users: Users,
