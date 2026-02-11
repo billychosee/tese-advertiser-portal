@@ -1,24 +1,103 @@
 "use client";
 
 import React, { useState } from "react";
+import { LucideIcon } from "lucide-react";
 import { cn } from "@/utils";
 import { Icons } from "@/components/ui/Icons";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
 interface TopBarProps {
   title?: string;
+  breadcrumbs?: {
+    label: string;
+    href?: string;
+    icon?: LucideIcon;
+  }[];
 }
 
-const TopBar: React.FC<TopBarProps> = ({ title }) => {
+const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [notifications, setNotifications] = useState(3);
 
+  const getPageIcon = (pageTitle: string): LucideIcon => {
+    const iconMap: Record<string, LucideIcon> = {
+      Dashboard: Icons.Dashboard,
+      Campaigns: Icons.Campaign,
+      "Create Campaign": Icons.Plus,
+      Reports: Icons.FileText,
+      Wallet: Icons.Wallet,
+      Settings: Icons.Settings,
+      "Team Management": Icons.Users,
+    };
+    return iconMap[pageTitle] || Icons.ChevronRight;
+  };
+
+  const defaultBreadcrumbs = title
+    ? [
+        { label: "Home", href: "/dashboard", icon: Icons.Home },
+        { label: title, icon: getPageIcon(title) },
+      ]
+    : [];
+
+  const displayBreadcrumbs = breadcrumbs || defaultBreadcrumbs;
+
   return (
     <header className="sticky top-0 z-30 bg-card border-b border-border">
-      <div className="flex items-center justify-between h-16 px-4 sm:px-6">
-        {/* Title */}
-        <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold text-foreground">{title}</h1>
+      <div className="flex items-center justify-between h-14 px-4 sm:px-6">
+        {/* Breadcrumbs or Title */}
+        <div className="flex items-center gap-3">
+          {displayBreadcrumbs.length > 0 ? (
+            <nav className="flex items-center gap-1 text-sm">
+              {displayBreadcrumbs.map((crumb, index) => (
+                <React.Fragment key={index}>
+                  {index > 0 && (
+                    <Icons.ChevronRight
+                      size={14}
+                      className="text-muted-foreground"
+                    />
+                  )}
+                  {crumb.href ? (
+                    <a
+                      href={crumb.href}
+                      className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {crumb.icon && (
+                        <crumb.icon
+                          size={14}
+                          className="text-muted-foreground"
+                        />
+                      )}
+                      <span>{crumb.label}</span>
+                    </a>
+                  ) : (
+                    <span
+                      className={`flex items-center gap-1.5 ${
+                        index === displayBreadcrumbs.length - 1
+                          ? "font-medium text-foreground"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {crumb.icon && (
+                        <crumb.icon
+                          size={14}
+                          className={
+                            index === displayBreadcrumbs.length - 1
+                              ? "text-foreground"
+                              : "text-muted-foreground"
+                          }
+                        />
+                      )}
+                      <span>{crumb.label}</span>
+                    </span>
+                  )}
+                </React.Fragment>
+              ))}
+            </nav>
+          ) : (
+            title && (
+              <h1 className="text-xl font-semibold text-foreground">{title}</h1>
+            )
+          )}
         </div>
 
         {/* Actions */}

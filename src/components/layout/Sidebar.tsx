@@ -15,7 +15,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Dashboard", href: "/dashboard", icon: Icons.Dashboard },
+  { name: "Dashboard", href: "/dashboard", icon: Icons.Home },
   { name: "Wallet", href: "/wallet", icon: Icons.Wallet },
   { name: "Campaigns", href: "/campaigns", icon: Icons.Campaign },
   { name: "Reports", href: "/reports", icon: Icons.Reports },
@@ -48,7 +48,7 @@ const Sidebar: React.FC = () => {
               alt="Tese Logo"
               className={cn(
                 "object-contain transition-all duration-300",
-                isCollapsed ? "w-20 h-16" : "w-40 h-24"
+                isCollapsed ? "w-20 h-16" : "w-40 h-24",
               )}
             />
           </Link>

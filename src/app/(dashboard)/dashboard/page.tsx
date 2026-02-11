@@ -148,7 +148,7 @@ const DashboardPage = () => {
   }, [period]);
 
   return (
-    <DashboardLayout>
+    <DashboardLayout title="Dashboard">
       <div className="min-h-screen bg-background text-foreground space-y-8 selection:bg-primary/30">
         {/* Header */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -368,10 +368,19 @@ const DashboardPage = () => {
                   cursor={{ stroke: "var(--primary)", strokeWidth: 2 }}
                   formatter={(value: number, name: string) => [
                     <span key={name} className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-current" style={{ color: name === 'impressions' ? 'var(--primary)' : 'var(--accent)' }} />
-                      {name === 'impressions' ? 'Impressions' : 'Clicks'}: {value.toLocaleString()}
+                      <span
+                        className="w-2 h-2 rounded-full bg-current"
+                        style={{
+                          color:
+                            name === "impressions"
+                              ? "var(--primary)"
+                              : "var(--accent)",
+                        }}
+                      />
+                      {name === "impressions" ? "Impressions" : "Clicks"}:{" "}
+                      {value.toLocaleString()}
                     </span>,
-                    name
+                    name,
                   ]}
                 />
                 <Area
@@ -381,7 +390,7 @@ const DashboardPage = () => {
                   strokeWidth={5}
                   fill="url(#purpleGlow)"
                   fillOpacity={1}
-                  dot={{ fill: 'var(--primary)', strokeWidth: 0, r: 4 }}
+                  dot={{ fill: "var(--primary)", strokeWidth: 0, r: 4 }}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                 />
                 <Area
@@ -390,7 +399,7 @@ const DashboardPage = () => {
                   stroke="var(--accent)"
                   strokeWidth={2}
                   fill="transparent"
-                  dot={{ fill: 'var(--accent)', strokeWidth: 0, r: 4 }}
+                  dot={{ fill: "var(--accent)", strokeWidth: 0, r: 4 }}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                 />
               </AreaChart>

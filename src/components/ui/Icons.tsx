@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  LayoutDashboard,
+  Home,
   Wallet,
   Target,
   BarChart3,
@@ -77,7 +77,7 @@ import {
 } from "lucide-react";
 
 export const Icons = {
-  Dashboard: LayoutDashboard,
+  Home: Home,
   Wallet: Wallet,
   Campaign: Target,
   Reports: BarChart3,

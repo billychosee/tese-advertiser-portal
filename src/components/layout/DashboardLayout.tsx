@@ -9,12 +9,14 @@ import TopBar from "./TopBar";
 interface DashboardLayoutProps {
   children: React.ReactNode;
   title?: string;
+  breadcrumbs?: { label: string; href?: string }[];
   className?: string;
 }
 
 const DashboardContent: React.FC<DashboardLayoutProps> = ({
   children,
   title,
+  breadcrumbs,
   className,
 }) => {
   const { isCollapsed } = useSidebar();
@@ -28,7 +30,7 @@ const DashboardContent: React.FC<DashboardLayoutProps> = ({
           isCollapsed ? "pl-20" : "pl-72",
         )}
       >
-        <TopBar title={title} />
+        <TopBar title={title} breadcrumbs={breadcrumbs} />
         <main className={cn("p-4 sm:p-6 lg:p-8", className)}>{children}</main>
       </div>
     </div>
