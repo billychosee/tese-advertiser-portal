@@ -163,36 +163,40 @@ const DashboardPage = () => {
               </p>
             </div>
           </div>
-
         </header>
 
         {/* Action Grid: Wallet & Ad Campaign Creation */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Top up Wallet Card */}
           <Card className="lg:col-span-4 bg-card border-border p-8 rounded-[32px] flex flex-col">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-xl font-bold text-card-foreground">
-                Top up Wallet
-              </h3>
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Icons.Wallet className="text-primary" size={20} />
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <p className="text-sm text-muted-foreground font-medium uppercase tracking-wide">
+                  Wallet Balance
+                </p>
+                <h3 className="text-3xl font-bold text-card-foreground mt-1">
+                  {formatCurrency(metrics?.walletBalance || 0)}
+                </h3>
+              </div>
+              <div className="p-3 bg-primary/10 rounded-full">
+                <Icons.Wallet className="text-primary" size={24} />
               </div>
             </div>
-            <div className="space-y-5">
+            <div className="space-y-4">
               <div className="relative group">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-black tracking-tighter">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-bold">
                   USD
                 </span>
                 <input
                   type="number"
                   placeholder="Enter Amount"
-                  className="w-full bg-background border border-input rounded-[20px] py-5 pl-14 pr-4 text-foreground font-bold focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/5 transition-all"
+                  className="w-full bg-background border border-input rounded-[20px] py-4 pl-14 pr-4 text-foreground font-bold focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/10 transition-all"
                   value={topUpAmount}
                   onChange={(e) => setTopUpAmount(e.target.value)}
                 />
               </div>
-              <Button className="w-full bg-primary hover:bg-primary/90 py-8 rounded-[20px] font-black uppercase tracking-[0.2em] text-[11px] transition-all hover:scale-[1.01] active:scale-[0.98]">
-                Pay Using Smatpay
+              <Button className="w-full bg-primary hover:bg-primary/90 py-4 rounded-[20px] font-bold uppercase tracking-widest text-xs transition-all">
+                Top up Wallet
               </Button>
             </div>
           </Card>
