@@ -139,7 +139,7 @@ const UsersPage: React.FC = () => {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <div className="p-1.5 rounded-full bg-[#2e7d32]/10">
-                <Icons.Crown size={14} className="text-[#2e7d32]" />
+                <Icons.Frown size={14} className="text-[#2e7d32]" />
               </div>
               <p className="text-xs font-medium text-muted-foreground">Owners</p>
             </div>
