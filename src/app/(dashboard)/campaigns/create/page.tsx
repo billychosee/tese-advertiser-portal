@@ -331,13 +331,15 @@ const CreateCampaignPage: React.FC = () => {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Budget (ZAR)"
+              label="Budget (USD)"
               type="number"
               value={budget}
               onChange={(e) => setBudget(parseFloat(e.target.value))}
               placeholder="Enter budget"
               leftIcon={
-                <span className="text-gray-400 text-sm font-medium">R</span>
+                <span className="text-gray-400 dark:text-gray-500 text-sm font-bold">
+                  $
+                </span>
               }
             />
             <Input
@@ -382,7 +384,7 @@ const CreateCampaignPage: React.FC = () => {
                 <p className="text-2xl font-bold text-gray-900">
                   {calculateBudget().toLocaleString("en-ZA", {
                     style: "currency",
-                    currency: "ZAR",
+                    currency: "USD",
                   })}
                 </p>
                 <p className="text-sm text-gray-500">Estimated Cost</p>
@@ -397,7 +399,7 @@ const CreateCampaignPage: React.FC = () => {
                 <p className="text-2xl font-bold text-gray-900">
                   {(calculateBudget() / durationDays).toLocaleString("en-ZA", {
                     style: "currency",
-                    currency: "ZAR",
+                    currency: "USD",
                   })}
                 </p>
                 <p className="text-sm text-gray-500">Daily Budget</p>

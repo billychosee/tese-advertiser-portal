@@ -194,7 +194,7 @@ const DashboardPage = () => {
             <div className="space-y-4">
               <div className="relative group">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-bold">
-                  USD
+                  $
                 </span>
                 <input
                   type="number"
@@ -366,6 +366,13 @@ const DashboardPage = () => {
                     color: "var(--card-foreground)",
                   }}
                   cursor={{ stroke: "var(--primary)", strokeWidth: 2 }}
+                  formatter={(value: number, name: string) => [
+                    <span key={name} className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-current" style={{ color: name === 'impressions' ? 'var(--primary)' : 'var(--accent)' }} />
+                      {name === 'impressions' ? 'Impressions' : 'Clicks'}: {value.toLocaleString()}
+                    </span>,
+                    name
+                  ]}
                 />
                 <Area
                   type="monotone"
@@ -374,14 +381,17 @@ const DashboardPage = () => {
                   strokeWidth={5}
                   fill="url(#purpleGlow)"
                   fillOpacity={1}
+                  dot={{ fill: 'var(--primary)', strokeWidth: 0, r: 4 }}
+                  activeDot={{ r: 6, strokeWidth: 0 }}
                 />
                 <Area
                   type="monotone"
                   dataKey="clicks"
-                  stroke="rgba(128,128,128,0.4)"
+                  stroke="var(--accent)"
                   strokeWidth={2}
                   fill="transparent"
-                  className="dark:stroke-white/20 light:stroke-gray-400"
+                  dot={{ fill: 'var(--accent)', strokeWidth: 0, r: 4 }}
+                  activeDot={{ r: 6, strokeWidth: 0 }}
                 />
               </AreaChart>
             </ResponsiveContainer>

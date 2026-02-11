@@ -206,7 +206,11 @@ const ReportsPage: React.FC = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                  <XAxis dataKey="name" stroke="var(--muted-foreground)" fontSize={12} />
+                  <XAxis
+                    dataKey="name"
+                    stroke="var(--muted-foreground)"
+                    fontSize={12}
+                  />
                   <YAxis stroke="var(--muted-foreground)" fontSize={12} />
                   <Tooltip
                     contentStyle={{
@@ -290,11 +294,15 @@ const ReportsPage: React.FC = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={spendChartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                  <XAxis dataKey="name" stroke="var(--muted-foreground)" fontSize={12} />
+                  <XAxis
+                    dataKey="name"
+                    stroke="var(--muted-foreground)"
+                    fontSize={12}
+                  />
                   <YAxis
                     stroke="var(--muted-foreground)"
                     fontSize={12}
-                    tickFormatter={(value) => `R${value}`}
+                    tickFormatter={(value) => `${value}`}
                   />
                   <Tooltip
                     contentStyle={{
@@ -305,7 +313,11 @@ const ReportsPage: React.FC = () => {
                     formatter={(value: number) => [formatCurrency(value), ""]}
                   />
                   <Bar dataKey="spent" fill="#0ea5e9" name="Spent" />
-                  <Bar dataKey="remaining" fill="var(--muted)" name="Remaining" />
+                  <Bar
+                    dataKey="remaining"
+                    fill="var(--muted)"
+                    name="Remaining"
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>

@@ -81,7 +81,9 @@ const WalletPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Wallet</h1>
-          <p className="text-muted-foreground mt-1">Manage your advertising funds</p>
+          <p className="text-muted-foreground mt-1">
+            Manage your advertising funds
+          </p>
         </div>
         <Button
           leftIcon={<Icons.Upload size={18} />}
@@ -233,12 +235,14 @@ const WalletPage: React.FC = () => {
       >
         <div className="space-y-4">
           <Input
-            label="Amount (ZAR)"
+            label="Amount (USD)"
             type="number"
             value={topUpAmount}
             onChange={(e) => setTopUpAmount(e.target.value)}
             placeholder="Enter amount"
-            leftIcon={<span className="text-muted-foreground">R</span>}
+            leftIcon={
+              <span className="text-muted-foreground font-bold">$</span>
+            }
           />
 
           <div className="grid grid-cols-3 gap-2">
@@ -253,7 +257,7 @@ const WalletPage: React.FC = () => {
                     : "border-input hover:border-primary",
                 )}
               >
-                R{amount}
+                ${amount}
               </button>
             ))}
           </div>

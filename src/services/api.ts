@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   Advertiser,
   AdvertiserUser,
@@ -15,7 +15,7 @@ import {
   Wallet,
   CampaignReport,
   DailyMetrics,
-} from '@/types';
+} from "@/types";
 import {
   mockAdvertiser,
   mockCampaigns,
@@ -30,14 +30,14 @@ import {
   mockTransactions,
   mockCampaignReports,
   mockWallet,
-} from './mockData';
+} from "./mockData";
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -49,35 +49,38 @@ export const authApi = {
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
     // Simulate API call delay
     await delay(500);
-    
-    if (credentials.email === 'demo@example.com' && credentials.password === 'demo123') {
+
+    if (
+      credentials.email === "demo@example.com" &&
+      credentials.password === "demo123"
+    ) {
       return {
         user: {
-          id: 'user-1',
+          id: "user-1",
           email: credentials.email,
-          name: 'Demo User',
-          role: 'advertiser',
-          advertiserId: 'adv-1',
+          name: "Demo User",
+          role: "advertiser",
+          advertiserId: "adv-1",
         },
-        token: 'mock-jwt-token-' + Date.now(),
+        token: "mock-jwt-token-" + Date.now(),
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
       };
     }
-    throw new Error('Invalid credentials');
+    throw new Error("Invalid credentials");
   },
 
   logout: async (): Promise<void> => {
     await delay(200);
   },
 
-  getCurrentUser: async (): Promise<AuthResponse['user']> => {
+  getCurrentUser: async (): Promise<AuthResponse["user"]> => {
     await delay(300);
     return {
-      id: 'user-1',
-      email: 'demo@example.com',
-      name: 'Demo User',
-      role: 'advertiser',
-      advertiserId: 'adv-1',
+      id: "user-1",
+      email: "demo@example.com",
+      name: "Demo User",
+      role: "advertiser",
+      advertiserId: "adv-1",
     };
   },
 };
@@ -119,7 +122,7 @@ export const creatorsApi = {
     return mockCreators.filter(
       (cr) =>
         cr.name.toLowerCase().includes(lowerQuery) ||
-        cr.channelName.toLowerCase().includes(lowerQuery)
+        cr.channelName.toLowerCase().includes(lowerQuery),
     );
   },
 };
@@ -134,12 +137,15 @@ export const walletApi = {
     return mockWallet;
   },
 
-  getTransactions: async (page = 1, pageSize = 10): Promise<PaginatedResponse<Transaction>> => {
+  getTransactions: async (
+    page = 1,
+    pageSize = 10,
+  ): Promise<PaginatedResponse<Transaction>> => {
     await delay(400);
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
     const data = mockTransactions.slice(start, end);
-    
+
     return {
       data,
       total: mockTransactions.length,
@@ -149,25 +155,28 @@ export const walletApi = {
     };
   },
 
-  topUp: async (amount: number, paymentMethod: string): Promise<Transaction> => {
+  topUp: async (
+    amount: number,
+    paymentMethod: string,
+  ): Promise<Transaction> => {
     await delay(800);
     const transaction: Transaction = {
-      id: 'tx-' + Date.now(),
+      id: "tx-" + Date.now(),
       walletId: mockWallet.id,
-      type: 'topup',
+      type: "topup",
       amount,
-      currency: 'ZAR',
-      status: 'completed',
-      description: 'Wallet top-up via ' + paymentMethod,
-      reference: 'TXN' + Date.now(),
+      currency: "USD",
+      status: "completed",
+      description: "Wallet top-up via " + paymentMethod,
+      reference: "TXN" + Date.now(),
       createdAt: new Date().toISOString(),
       completedAt: new Date().toISOString(),
     };
-    
+
     // Update mock wallet balance
     mockWallet.balance += amount;
     mockWallet.updatedAt = new Date().toISOString();
-    
+
     return transaction;
   },
 };
@@ -190,34 +199,38 @@ export const campaignsApi = {
   create: async (campaign: Partial<Campaign>): Promise<Campaign> => {
     await delay(600);
     const newCampaign: Campaign = {
-      id: 'camp-' + Date.now(),
-      advertiserId: 'adv-1',
-      name: campaign.name || '',
+      id: "camp-" + Date.now(),
+      advertiserId: "adv-1",
+      name: campaign.name || "",
       description: campaign.description,
-      type: campaign.type || 'category',
-      status: 'pending',
+      type: campaign.type || "category",
+      status: "pending",
       categoryIds: campaign.categoryIds,
       creatorIds: campaign.creatorIds,
-      videoUrl: campaign.videoUrl || '',
+      videoUrl: campaign.videoUrl || "",
       thumbnailUrl: campaign.thumbnailUrl,
-      targetUrl: campaign.targetUrl || '',
+      targetUrl: campaign.targetUrl || "",
       duration: campaign.duration || 15,
-      placements: campaign.placements || ['pre_roll'],
+      placements: campaign.placements || ["pre_roll"],
       budget: campaign.budget || 0,
       dailyBudget: campaign.dailyBudget,
       durationDays: campaign.durationDays || 7,
-      targetType: campaign.targetType || 'impressions',
+      targetType: campaign.targetType || "impressions",
       targetValue: campaign.targetValue || 0,
       impressions: 0,
       views: 0,
       clicks: 0,
       spend: 0,
-      startDate: campaign.startDate || new Date().toISOString().split('T')[0],
-      endDate: campaign.endDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      startDate: campaign.startDate || new Date().toISOString().split("T")[0],
+      endDate:
+        campaign.endDate ||
+        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+          .toISOString()
+          .split("T")[0],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     mockCampaigns.push(newCampaign);
     return newCampaign;
   },
@@ -225,32 +238,32 @@ export const campaignsApi = {
   update: async (id: string, updates: Partial<Campaign>): Promise<Campaign> => {
     await delay(400);
     const index = mockCampaigns.findIndex((camp) => camp.id === id);
-    if (index === -1) throw new Error('Campaign not found');
-    
+    if (index === -1) throw new Error("Campaign not found");
+
     mockCampaigns[index] = {
       ...mockCampaigns[index],
       ...updates,
       updatedAt: new Date().toISOString(),
     };
-    
+
     return mockCampaigns[index];
   },
 
   pause: async (id: string): Promise<Campaign> => {
     await delay(300);
-    return campaignsApi.update(id, { status: 'paused' });
+    return campaignsApi.update(id, { status: "paused" });
   },
 
   resume: async (id: string): Promise<Campaign> => {
     await delay(300);
-    return campaignsApi.update(id, { status: 'active' });
+    return campaignsApi.update(id, { status: "active" });
   },
 
   delete: async (id: string): Promise<void> => {
     await delay(300);
     const index = mockCampaigns.findIndex((camp) => camp.id === id);
     if (index !== -1) {
-      mockCampaigns[index].status = 'deleted';
+      mockCampaigns[index].status = "deleted";
     }
   },
 };
@@ -265,12 +278,14 @@ export const dashboardApi = {
     return mockDashboardMetrics;
   },
 
-  getDailyMetrics: async (period: 'daily' | 'weekly' | 'yearly' = 'daily'): Promise<DailyMetrics[]> => {
+  getDailyMetrics: async (
+    period: "daily" | "weekly" | "yearly" = "daily",
+  ): Promise<DailyMetrics[]> => {
     await delay(350);
     switch (period) {
-      case 'weekly':
+      case "weekly":
         return mockWeeklyMetrics;
-      case 'yearly':
+      case "yearly":
         return mockYearlyMetrics;
       default:
         return mockDailyMetrics;
@@ -283,7 +298,9 @@ export const dashboardApi = {
 // ============================================
 
 export const reportsApi = {
-  getCampaignReports: async (campaignId?: string): Promise<CampaignReport[]> => {
+  getCampaignReports: async (
+    campaignId?: string,
+  ): Promise<CampaignReport[]> => {
     await delay(400);
     if (campaignId) {
       return mockCampaignReports.filter((r) => r.campaignId === campaignId);
@@ -299,10 +316,20 @@ export const reportsApi = {
   exportCampaignReport: async (campaignId: string): Promise<Blob> => {
     await delay(500);
     const report = mockCampaignReports.find((r) => r.campaignId === campaignId);
-    if (!report) throw new Error('Report not found');
-    
+    if (!report) throw new Error("Report not found");
+
     // Create CSV content
-    const headers = ['Campaign Name', 'Date', 'Impressions', 'Views', 'Clicks', 'CTR', 'Spend', 'CPC', 'CPM'];
+    const headers = [
+      "Campaign Name",
+      "Date",
+      "Impressions",
+      "Views",
+      "Clicks",
+      "CTR",
+      "Spend",
+      "CPC",
+      "CPM",
+    ];
     const values = [
       report.campaignName,
       report.date,
@@ -314,16 +341,23 @@ export const reportsApi = {
       report.cpc.toFixed(2),
       report.cpm.toFixed(2),
     ];
-    
-    const csv = [headers.join(','), values.join(',')].join('\n');
-    return new Blob([csv], { type: 'text/csv' });
+
+    const csv = [headers.join(","), values.join(",")].join("\n");
+    return new Blob([csv], { type: "text/csv" });
   },
 
   exportSpendReport: async (): Promise<Blob> => {
     await delay(500);
-    
+
     // Create CSV content
-    const headers = ['Campaign Name', 'Total Budget', 'Spent', 'Remaining', 'Start Date', 'End Date'];
+    const headers = [
+      "Campaign Name",
+      "Total Budget",
+      "Spent",
+      "Remaining",
+      "Start Date",
+      "End Date",
+    ];
     const rows = mockSpendReports.map((r) => [
       r.campaignName,
       r.totalBudget,
@@ -332,9 +366,9 @@ export const reportsApi = {
       r.startDate,
       r.endDate,
     ]);
-    
-    const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
-    return new Blob([csv], { type: 'text/csv' });
+
+    const csv = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    return new Blob([csv], { type: "text/csv" });
   },
 };
 
@@ -356,11 +390,11 @@ export const usersApi = {
   create: async (user: Partial<AdvertiserUser>): Promise<AdvertiserUser> => {
     await delay(400);
     const newUser: AdvertiserUser = {
-      id: 'user-' + Date.now(),
-      advertiserId: 'adv-1',
-      email: user.email || '',
-      name: user.name || '',
-      role: user.role || 'viewer',
+      id: "user-" + Date.now(),
+      advertiserId: "adv-1",
+      email: user.email || "",
+      name: user.name || "",
+      role: user.role || "viewer",
       permissions: user.permissions || {
         canCreateCampaigns: false,
         canAccessWallet: false,
@@ -371,21 +405,24 @@ export const usersApi = {
       isActive: true,
       createdAt: new Date().toISOString(),
     };
-    
+
     mockTeamUsers.push(newUser);
     return newUser;
   },
 
-  update: async (id: string, updates: Partial<AdvertiserUser>): Promise<AdvertiserUser> => {
+  update: async (
+    id: string,
+    updates: Partial<AdvertiserUser>,
+  ): Promise<AdvertiserUser> => {
     await delay(300);
     const index = mockTeamUsers.findIndex((u) => u.id === id);
-    if (index === -1) throw new Error('User not found');
-    
+    if (index === -1) throw new Error("User not found");
+
     mockTeamUsers[index] = {
       ...mockTeamUsers[index],
       ...updates,
     };
-    
+
     return mockTeamUsers[index];
   },
 
@@ -410,7 +447,9 @@ export const advertiserApi = {
 
   updateProfile: async (updates: Partial<Advertiser>): Promise<Advertiser> => {
     await delay(400);
-    Object.assign(mockAdvertiser, updates, { updatedAt: new Date().toISOString() });
+    Object.assign(mockAdvertiser, updates, {
+      updatedAt: new Date().toISOString(),
+    });
     return mockAdvertiser;
   },
 };

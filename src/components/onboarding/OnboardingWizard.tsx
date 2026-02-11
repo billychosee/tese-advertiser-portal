@@ -8,11 +8,11 @@ import Input from "@/components/ui/Input";
 import { Icons } from "@/components/ui/Icons";
 import { cn } from "@/utils";
 
-interface OnboardingWizardProps {
+interface OnboardingWiUSDdProps {
   onComplete: () => void;
 }
 
-const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
+const OnboardingWiUSDd: React.FC<OnboardingWiUSDdProps> = ({ onComplete }) => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -159,7 +159,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
                     Your wallet will be created automatically
                   </p>
                   <p className="text-sm text-blue-500/80 mt-1">
-                    You'll receive a South African Rand (ZAR) wallet for all
+                    You'll receive a $ wallet for all
                     transactions
                   </p>
                 </div>
@@ -251,10 +251,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
 
             <div className="p-4 bg-accent/10 border border-accent/20 rounded-lg">
               <div className="flex items-start gap-3">
-                <Icons.AlertCircle
-                  size={20}
-                  className="text-accent mt-0.5"
-                />
+                <Icons.AlertCircle size={20} className="text-accent mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-accent">
                     Verification typically takes 1-2 business days
@@ -294,4 +291,4 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ onComplete }) => {
   );
 };
 
-export default OnboardingWizard;
+export default OnboardingWiUSDd;
