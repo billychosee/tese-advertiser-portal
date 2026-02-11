@@ -23,6 +23,8 @@ import {
   mockCreators,
   mockDashboardMetrics,
   mockDailyMetrics,
+  mockWeeklyMetrics,
+  mockYearlyMetrics,
   mockSpendReports,
   mockTeamUsers,
   mockTransactions,
@@ -265,7 +267,14 @@ export const dashboardApi = {
 
   getDailyMetrics: async (period: 'daily' | 'weekly' | 'yearly' = 'daily'): Promise<DailyMetrics[]> => {
     await delay(350);
-    return mockDailyMetrics;
+    switch (period) {
+      case 'weekly':
+        return mockWeeklyMetrics;
+      case 'yearly':
+        return mockYearlyMetrics;
+      default:
+        return mockDailyMetrics;
+    }
   },
 };
 
