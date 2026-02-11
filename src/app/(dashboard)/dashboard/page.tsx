@@ -163,6 +163,15 @@ const DashboardPage = () => {
               </p>
             </div>
           </div>
+          <a href="/reports" className="flex items-center gap-2">
+            <Button
+              size="sm"
+              className="gap-2 bg-white text-primary border-primary border hover:bg-primary hover:text-primary-foreground hover:border-transparent transition-all duration-200 dark:bg-transparent dark:text-primary dark:border-primary dark:hover:bg-transparent dark:hover:text-white dark:hover:border-white"
+            >
+              <Icons.FileText size={16} />
+              View Reports
+            </Button>
+          </a>
         </header>
 
         {/* Action Grid: Wallet & Ad Campaign Creation */}
