@@ -1,0 +1,301 @@
+/* tailwindcss */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;500;600;700&display=swap");
+
+@layer base {
+  :root {
+    /* Light Theme - Clean & Professional */
+    --background: #f5f5f5;
+    --foreground: #1a1a1a;
+
+    --card: #ffffff;
+    --card-foreground: #1a1a1a;
+
+    --popover: #ffffff;
+    --popover-foreground: #1a1a1a;
+
+    --primary: #2e7d32;
+    --primary-foreground: #ffffff;
+
+    --secondary: #f5f5f5;
+    --secondary-foreground: #1a1a1a;
+
+    --muted: #e8e8e8;
+    --muted-foreground: #666666;
+
+    --accent: #f9a825;
+    --accent-foreground: #1a1a1a;
+
+    --destructive: #c62828;
+    --destructive-foreground: #ffffff;
+
+    --border: #e5e5e5;
+    --input: #e5e5e5;
+    --ring: #2e7d32;
+
+    --radius-lg: 0.75rem;
+    --radius-md: 0.5rem;
+    --radius-sm: 0.25rem;
+
+    --font-sans: "Open Sans", sans-serif;
+    --font-heading: "Montserrat", sans-serif;
+  }
+
+  .dark {
+    /* Dark Theme - Bold & Authoritative */
+    --background: #1a1a1a;
+    --foreground: #f5f5f5;
+
+    --card: #242424;
+    --card-foreground: #f5f5f5;
+
+    --popover: #242424;
+    --popover-foreground: #f5f5f5;
+
+    /* Harvest Green for primary in both modes */
+    --primary: #2e7d32;
+    --primary-foreground: #ffffff;
+
+    --secondary: #333333;
+    --secondary-foreground: #f5f5f5;
+
+    --muted: #404040;
+    --muted-foreground: #a0a0a0;
+
+    /* Gold Standard for accent */
+    --accent: #f9a825;
+    --accent-foreground: #1a1a1a;
+
+    /* Heartbeat Red for destructive */
+    --destructive: #c62828;
+    --destructive-foreground: #ffffff;
+
+    --border: #404040;
+    --input: #404040;
+    --ring: #2e7d32;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-primary text-primary-foreground hover:opacity-90 focus:ring-primary focus:ring-offset-background;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-secondary focus:ring-offset-background;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 border-2 bg-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed border-primary text-primary hover:bg-primary hover:text-primary-foreground focus:ring-primary focus:ring-offset-background;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 bg-transparent hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-secondary-foreground hover:text-secondary-foreground focus:ring-secondary focus:ring-offset-background;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed bg-destructive text-destructive-foreground hover:opacity-90 focus:ring-destructive focus:ring-offset-background;
+  }
+
+  .input {
+    @apply block w-full px-4 py-2.5 text-sm rounded-lg bg-background border border-input placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed transition-colors;
+  }
+
+  .card {
+    @apply bg-card text-card-foreground rounded-xl shadow-sm border border-border;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-md transition-shadow duration-200;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-1 text-sm font-medium rounded-full transition-colors;
+  }
+
+  .badge-success {
+    @apply badge bg-primary/10 text-primary;
+  }
+
+  .badge-warning {
+    @apply badge bg-accent/10 text-accent;
+  }
+
+  .badge-error {
+    @apply badge bg-destructive/10 text-destructive;
+  }
+
+  .badge-info {
+    @apply badge bg-secondary text-secondary-foreground;
+  }
+
+  .badge-default {
+    @apply badge bg-muted text-muted-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Pattern dots for auth layout */
+  .pattern-dots {
+    background-image: radial-gradient(currentColor 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.15;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--muted-foreground);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--ring);
+}
+
+/* Form elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.modal-content {
+  position: relative;
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-radius: 0.75rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+/* Loading spinner */
+.spinner {
+  animation: spin 1s linear infinite;
+  height: 1rem;
+  width: 1rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 9999px;
+}
