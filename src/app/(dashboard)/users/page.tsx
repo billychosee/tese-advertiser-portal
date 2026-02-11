@@ -123,27 +123,56 @@ const UsersPage: React.FC = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-        <Card padding="sm">
+        <Card padding="sm" className="relative overflow-hidden">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 rounded-full bg-gray-100 dark:bg-gray-800">
+                <Icons.Users size={14} className="text-gray-600 dark:text-gray-400" />
+              </div>
+              <p className="text-xs font-medium text-muted-foreground">Total</p>
+            </div>
+          </div>
           <p className="text-2xl font-bold text-foreground">{users.length}</p>
-          <p className="text-sm text-muted-foreground">Total Users</p>
+          <p className="text-xs text-muted-foreground">Users</p>
         </Card>
-        <Card padding="sm">
-          <p className="text-2xl font-bold text-primary">
+        <Card padding="sm" className="relative overflow-hidden">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 rounded-full bg-[#2e7d32]/10">
+                <Icons.Crown size={14} className="text-[#2e7d32]" />
+              </div>
+              <p className="text-xs font-medium text-muted-foreground">Owners</p>
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-[#2e7d32]">
             {users.filter((u) => u.role === "owner").length}
           </p>
-          <p className="text-sm text-muted-foreground">Owners</p>
         </Card>
-        <Card padding="sm">
-          <p className="text-2xl font-bold text-blue-500">
+        <Card padding="sm" className="relative overflow-hidden">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 rounded-full bg-[#f9a825]/10">
+                <Icons.Settings size={14} className="text-[#f9a825]" />
+              </div>
+              <p className="text-xs font-medium text-muted-foreground">Managers</p>
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-[#f9a825]">
             {users.filter((u) => u.role === "manager").length}
           </p>
-          <p className="text-sm text-muted-foreground">Managers</p>
         </Card>
-        <Card padding="sm">
-          <p className="text-2xl font-bold text-muted-foreground">
+        <Card padding="sm" className="relative overflow-hidden">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 rounded-full bg-[#c62828]/10">
+                <Icons.Eye size={14} className="text-[#c62828]" />
+              </div>
+              <p className="text-xs font-medium text-muted-foreground">Viewers</p>
+            </div>
+          </div>
+          <p className="text-2xl font-bold text-[#c62828]">
             {users.filter((u) => u.role === "viewer").length}
           </p>
-          <p className="text-sm text-muted-foreground">Viewers</p>
         </Card>
       </div>
 

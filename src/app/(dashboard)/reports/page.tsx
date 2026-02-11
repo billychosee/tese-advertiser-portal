@@ -380,16 +380,16 @@ const ReportsPage: React.FC = () => {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="text-left py-2 px-3 text-sm font-medium text-muted-foreground">
+                    <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                       Campaign
                     </th>
-                    <th className="text-right py-2 px-3 text-sm font-medium text-muted-foreground">
+                    <th className="text-right py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                       Impressions
                     </th>
-                    <th className="text-right py-2 px-3 text-sm font-medium text-muted-foreground">
+                    <th className="text-right py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                       CTR
                     </th>
-                    <th className="text-right py-2 px-3 text-sm font-medium text-muted-foreground">
+                    <th className="text-right py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                       CPM
                     </th>
                   </tr>
@@ -510,19 +510,19 @@ const ReportsPage: React.FC = () => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-border">
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Campaign
                 </th>
-                <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-right py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Budget
                 </th>
-                <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-right py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Spent
                 </th>
-                <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-right py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Remaining
                 </th>
-                <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-right py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Actions
                 </th>
               </tr>
@@ -550,6 +550,7 @@ const ReportsPage: React.FC = () => {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleExportCampaign(report.campaignId)}
+                      leftIcon={<Icons.Download size={14} />}
                     >
                       Export
                     </Button>
