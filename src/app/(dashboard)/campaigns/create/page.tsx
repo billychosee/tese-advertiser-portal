@@ -15,7 +15,7 @@ import {
   PlacementType,
   TargetType,
 } from "@/types";
-import { cn } from "@/utils";
+import { cn, formatNumber } from "@/utils";
 
 const CreateCampaignPage: React.FC = () => {
   const router = useRouter();
@@ -34,6 +34,10 @@ const CreateCampaignPage: React.FC = () => {
   const [targetValue, setTargetValue] = useState(0);
   const [placements, setPlacements] = useState<PlacementType[]>(["pre_roll"]);
   const [isLoading, setIsLoading] = useState(false);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoPreview, setVideoPreview] = useState<string | null>(null);
+  const [videoDuration, setVideoDuration] = useState<number | null>(null);
+  const [videoError, setVideoError] = useState<string | null>(null);
 
   useEffect(() => {
     loadData();
@@ -64,6 +68,56 @@ const CreateCampaignPage: React.FC = () => {
         ? prev.filter((p) => p !== placement)
         : [...prev, placement],
     );
+  };
+
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Check file type
+    if (!file.type.startsWith("video/")) {
+      setVideoError("Please upload a valid video file");
+      return;
+    }
+
+    // Check file size (50MB max)
+    if (file.size > 50 * 1024 * 1024) {
+      setVideoError("Video file size must be less than 50MB");
+      return;
+    }
+
+    // Create video element to check duration
+    const video = document.createElement("video");
+    video.preload = "metadata";
+
+    video.onloadedmetadata = () => {
+      window.URL.revokeObjectURL(video.src);
+
+      if (video.duration > 30) {
+        setVideoError("Video duration must be 30 seconds or less");
+        setVideoFile(null);
+        setVideoPreview(null);
+        setVideoDuration(null);
+      } else {
+        setVideoError(null);
+        setVideoFile(file);
+        setVideoDuration(video.duration);
+        setVideoPreview(URL.createObjectURL(file));
+      }
+    };
+
+    video.onerror = () => {
+      setVideoError("Error loading video file");
+    };
+
+    video.src = URL.createObjectURL(file);
+  };
+
+  const removeVideo = () => {
+    setVideoFile(null);
+    setVideoPreview(null);
+    setVideoDuration(null);
+    setVideoError(null);
   };
 
   const calculateBudget = () => {
@@ -200,18 +254,44 @@ const CreateCampaignPage: React.FC = () => {
                     key={item.id}
                     onClick={() => handleCategoryToggle(item.id)}
                     className={cn(
-                      "p-4 border rounded-lg text-left transition-colors",
+                      "relative h-24 rounded-lg overflow-hidden text-left transition-colors group",
                       selectedCategories.includes(item.id)
-                        ? "border-primary bg-primary/10"
-                        : "border-input hover:border-primary/50",
+                        ? "ring-2 ring-primary ring-offset-2"
+                        : "border border-input hover:border-primary/50",
                     )}
+                    style={{
+                      backgroundImage: item.image ? `url(${item.image})` : undefined,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
                   >
-                    <p className="font-medium text-foreground truncate">
-                      {item.name}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {item.creatorCount} creators
-                    </p>
+                    {/* Overlay */}
+                    <div className={cn(
+                      "absolute inset-0 transition-colors",
+                      selectedCategories.includes(item.id)
+                        ? "bg-black/40"
+                        : "bg-black/50 group-hover:bg-black/60",
+                    )} />
+                    
+                    {/* Content */}
+                    <div className="relative z-10 h-full flex flex-col justify-end p-3">
+                      <span className="text-lg mb-1">{item.icon}</span>
+                      <p className="font-semibold text-white text-sm truncate">
+                        {item.name}
+                      </p>
+                      <p className="text-white/80 text-xs">
+                        {item.creatorCount.toLocaleString()} creators
+                      </p>
+                    </div>
+                    
+                    {/* Selected indicator */}
+                    {selectedCategories.includes(item.id) && (
+                      <div className="absolute top-2 right-2 z-20">
+                        <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                          <Icons.Check size={12} className="text-primary-foreground" />
+                        </div>
+                      </div>
+                    )}
                   </button>
                 ))
               : creators.map((item) => (
@@ -225,12 +305,33 @@ const CreateCampaignPage: React.FC = () => {
                         : "border-input hover:border-primary/50",
                     )}
                   >
-                    <p className="font-medium text-foreground truncate">
-                      {item.channelName}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {item.subscriberCount} subscribers
-                    </p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                        {item.avatar ? (
+                          <img
+                            src={item.avatar}
+                            alt={item.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <Icons.Users size={20} className="text-muted-foreground" />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-foreground truncate">
+                          {item.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {item.channelName}
+                        </p>
+                        <p className="text-xs text-muted-foreground/70 mt-0.5">
+                          {formatNumber(item.subscriberCount)} subscribers
+                        </p>
+                      </div>
+                      {selectedCreators.includes(item.id) && (
+                        <Icons.Check size={18} className="text-primary flex-shrink-0" />
+                      )}
+                    </div>
                   </button>
                 ))}
           </div>
@@ -294,19 +395,65 @@ const CreateCampaignPage: React.FC = () => {
             <label className="block text-sm font-medium text-foreground mb-2">
               Upload Video (Max 30 secs)
             </label>
-            <div className="border-2 border-dashed border-input rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer bg-background">
-              <Icons.Upload
-                className="mx-auto text-muted-foreground mb-2"
-                size={24}
-              />
-              <p className="text-sm text-muted-foreground">
-                Click to upload or drag and drop
-              </p>
-              <p className="text-xs text-muted-foreground/70 mt-1">
-                MP4, MOV up to 50MB (Max 30 seconds)
-              </p>
-              <input type="file" accept="video/*" className="hidden" />
-            </div>
+
+            {/* Video Preview */}
+            {videoPreview ? (
+              <div className="relative rounded-lg overflow-hidden bg-black">
+                <video
+                  src={videoPreview}
+                  controls
+                  className="w-full max-h-80 mx-auto"
+                  poster=""
+                />
+                <button
+                  onClick={removeVideo}
+                  className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 rounded-full text-white transition-colors"
+                >
+                  <Icons.Close size={16} />
+                </button>
+                <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 rounded text-white text-xs">
+                  {videoDuration?.toFixed(1)}s / 30s
+                </div>
+              </div>
+            ) : (
+              <div className="border-2 border-dashed border-input rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer bg-background relative">
+                <input
+                  type="file"
+                  accept="video/*"
+                  onChange={handleVideoUpload}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <Icons.Upload
+                  className="mx-auto text-muted-foreground mb-2"
+                  size={24}
+                />
+                <p className="text-sm text-muted-foreground">
+                  Click to upload or drag and drop
+                </p>
+                <p className="text-xs text-muted-foreground/70 mt-1">
+                  MP4, MOV up to 50MB (Max 30 seconds)
+                </p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {videoError && (
+              <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
+                <Icons.AlertCircle size={16} />
+                {videoError}
+              </div>
+            )}
+
+            {/* Uploaded File Info */}
+            {videoFile && !videoError && (
+              <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                <Icons.Video size={16} />
+                <span className="truncate">{videoFile.name}</span>
+                <span className="text-xs">
+                  ({(videoFile.size / (1024 * 1024)).toFixed(2)} MB)
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Placement */}

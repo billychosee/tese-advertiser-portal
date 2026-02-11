@@ -10,6 +10,8 @@ import {
   CampaignReport,
   DailyMetrics,
   SpendReport,
+  WeeklyMetrics,
+  YearlyMetrics,
 } from "@/types";
 
 // ============================================
@@ -22,6 +24,7 @@ export const mockCategories: Category[] = [
     name: "Comedy",
     description: "Funny videos and skits",
     icon: "😄",
+    image: "https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=400&h=300&fit=crop",
     creatorCount: 1250,
     isActive: true,
   },
@@ -30,6 +33,7 @@ export const mockCategories: Category[] = [
     name: "Drama",
     description: "Drama series and movies",
     icon: "🎭",
+    image: "https://images.unsplash.com/photo-1503095396549-807759245b35?w=400&h=300&fit=crop",
     creatorCount: 890,
     isActive: true,
   },
@@ -38,6 +42,7 @@ export const mockCategories: Category[] = [
     name: "Music",
     description: "Music videos and performances",
     icon: "🎵",
+    image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop",
     creatorCount: 2100,
     isActive: true,
   },
@@ -46,6 +51,7 @@ export const mockCategories: Category[] = [
     name: "Sports",
     description: "Sports highlights and commentary",
     icon: "⚽",
+    image: "https://images.unsplash.com/photo-1461896836934- voices-of-the-deep?w=400&h=300&fit=crop",
     creatorCount: 750,
     isActive: true,
   },
@@ -54,6 +60,7 @@ export const mockCategories: Category[] = [
     name: "News",
     description: "News and current affairs",
     icon: "📰",
+    image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=300&fit=crop",
     creatorCount: 450,
     isActive: true,
   },
@@ -62,6 +69,7 @@ export const mockCategories: Category[] = [
     name: "Fitness",
     description: "Workout and health content",
     icon: "💪",
+    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop",
     creatorCount: 680,
     isActive: true,
   },
@@ -70,6 +78,7 @@ export const mockCategories: Category[] = [
     name: "Education",
     description: "Educational tutorials",
     icon: "📚",
+    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=300&fit=crop",
     creatorCount: 920,
     isActive: true,
   },
@@ -78,6 +87,7 @@ export const mockCategories: Category[] = [
     name: "Gaming",
     description: "Gaming content and streams",
     icon: "🎮",
+    image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&h=300&fit=crop",
     creatorCount: 1850,
     isActive: true,
   },
@@ -92,7 +102,7 @@ export const mockCreators: Creator[] = [
     id: "cr-1",
     name: "John Doe",
     channelName: "@johndoe",
-    avatar: "/avatars/creator1.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-1",
     subscriberCount: 500000,
     categoryIds: ["cat-1", "cat-3"],
     isActive: true,
@@ -101,7 +111,7 @@ export const mockCreators: Creator[] = [
     id: "cr-2",
     name: "Jane Smith",
     channelName: "@janesmith",
-    avatar: "/avatars/creator2.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-2",
     subscriberCount: 350000,
     categoryIds: ["cat-2"],
     isActive: true,
@@ -110,7 +120,7 @@ export const mockCreators: Creator[] = [
     id: "cr-3",
     name: "Mike Johnson",
     channelName: "@mikej",
-    avatar: "/avatars/creator3.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-3",
     subscriberCount: 800000,
     categoryIds: ["cat-4", "cat-8"],
     isActive: true,
@@ -119,7 +129,7 @@ export const mockCreators: Creator[] = [
     id: "cr-4",
     name: "Sarah Williams",
     channelName: "@sarahw",
-    avatar: "/avatars/creator4.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-4",
     subscriberCount: 250000,
     categoryIds: ["cat-6"],
     isActive: true,
@@ -128,7 +138,7 @@ export const mockCreators: Creator[] = [
     id: "cr-5",
     name: "Tom Brown",
     channelName: "@tombrown",
-    avatar: "/avatars/creator5.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-5",
     subscriberCount: 600000,
     categoryIds: ["cat-7", "cat-1"],
     isActive: true,
@@ -137,7 +147,7 @@ export const mockCreators: Creator[] = [
     id: "cr-6",
     name: "Emily Davis",
     channelName: "@emilyd",
-    avatar: "/avatars/creator6.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-6",
     subscriberCount: 420000,
     categoryIds: ["cat-3", "cat-5"],
     isActive: true,
@@ -146,7 +156,7 @@ export const mockCreators: Creator[] = [
     id: "cr-7",
     name: "Chris Wilson",
     channelName: "@chrisw",
-    avatar: "/avatars/creator7.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-7",
     subscriberCount: 950000,
     categoryIds: ["cat-8"],
     isActive: true,
@@ -155,7 +165,7 @@ export const mockCreators: Creator[] = [
     id: "cr-8",
     name: "Lisa Anderson",
     channelName: "@lisaa",
-    avatar: "/avatars/creator8.png",
+    avatar: "https://i.pravatar.cc/150?u=cr-8",
     subscriberCount: 320000,
     categoryIds: ["cat-2", "cat-3"],
     isActive: true,
@@ -290,8 +300,8 @@ export const mockCampaigns: Campaign[] = [
     type: "category",
     status: "active",
     categoryIds: ["cat-1", "cat-2", "cat-3"],
-    videoUrl: "/videos/summer-sale.mp4",
-    thumbnailUrl: "/thumbnails/summer-sale.png",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    thumbnailUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
     targetUrl: "https://example.com/summer-sale",
     duration: 15,
     placements: ["pre_roll", "mid_roll"],
@@ -317,8 +327,8 @@ export const mockCampaigns: Campaign[] = [
     type: "creator",
     status: "active",
     creatorIds: ["cr-1", "cr-3", "cr-7"],
-    videoUrl: "/videos/product-launch.mp4",
-    thumbnailUrl: "/thumbnails/product-launch.png",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    thumbnailUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg",
     targetUrl: "https://example.com/new-phone",
     duration: 30,
     placements: ["pre_roll"],
@@ -343,8 +353,8 @@ export const mockCampaigns: Campaign[] = [
     type: "category",
     status: "paused",
     categoryIds: ["cat-8", "cat-1"],
-    videoUrl: "/videos/brand.mp4",
-    thumbnailUrl: "/thumbnails/brand.png",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+    thumbnailUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg",
     targetUrl: "https://example.com/brand",
     duration: 20,
     placements: ["mid_roll"],
@@ -369,8 +379,8 @@ export const mockCampaigns: Campaign[] = [
     type: "category",
     status: "completed",
     categoryIds: ["cat-2", "cat-4", "cat-5"],
-    videoUrl: "/videos/holiday.mp4",
-    thumbnailUrl: "/thumbnails/holiday.png",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    thumbnailUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg",
     targetUrl: "https://example.com/holiday",
     duration: 25,
     placements: ["pre_roll", "mid_roll"],
@@ -395,8 +405,8 @@ export const mockCampaigns: Campaign[] = [
     type: "creator",
     status: "pending",
     creatorIds: ["cr-4", "cr-6"],
-    videoUrl: "/videos/fitness.mp4",
-    thumbnailUrl: "/thumbnails/fitness.png",
+    videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+    thumbnailUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerMeltdowns.jpg",
     targetUrl: "https://example.com/fitness-app",
     duration: 15,
     placements: ["pre_roll", "mid_roll"],
@@ -504,135 +514,188 @@ export const mockDailyMetrics: DailyMetrics[] = [
     clicks: 1040,
     spend: 1300,
   },
-];
-
-export const mockWeeklyMetrics: DailyMetrics[] = [
   {
-    date: "Week 1",
-    impressions: 85000,
-    views: 42500,
-    clicks: 3400,
-    spend: 4250,
+    date: "2024-02-11",
+    impressions: 24000,
+    views: 12000,
+    clicks: 960,
+    spend: 1200,
   },
   {
-    date: "Week 2",
-    impressions: 120000,
-    views: 60000,
-    clicks: 4800,
-    spend: 6000,
+    date: "2024-02-12",
+    impressions: 21000,
+    views: 10500,
+    clicks: 840,
+    spend: 1050,
   },
   {
-    date: "Week 3",
-    impressions: 98000,
-    views: 49000,
-    clicks: 3920,
-    spend: 4900,
+    date: "2024-02-13",
+    impressions: 23000,
+    views: 11500,
+    clicks: 920,
+    spend: 1150,
   },
   {
-    date: "Week 4",
-    impressions: 145000,
-    views: 72500,
-    clicks: 5800,
-    spend: 7250,
-  },
-];
-
-export const mockYearlyMetrics: DailyMetrics[] = [
-  {
-    date: "Jan",
-    impressions: 450000,
-    views: 225000,
-    clicks: 18000,
-    spend: 22500,
-  },
-  {
-    date: "Feb",
-    impressions: 520000,
-    views: 260000,
-    clicks: 20800,
-    spend: 26000,
-  },
-  {
-    date: "Mar",
-    impressions: 480000,
-    views: 240000,
-    clicks: 19200,
-    spend: 24000,
-  },
-  {
-    date: "Apr",
-    impressions: 590000,
-    views: 295000,
-    clicks: 23600,
-    spend: 29500,
-  },
-  {
-    date: "May",
-    impressions: 620000,
-    views: 310000,
-    clicks: 24800,
-    spend: 31000,
-  },
-  {
-    date: "Jun",
-    impressions: 550000,
-    views: 275000,
-    clicks: 22000,
-    spend: 27500,
+    date: "2024-02-14",
+    impressions: 27000,
+    views: 13500,
+    clicks: 1080,
+    spend: 1350,
   },
 ];
 
 // ============================================
-// Mock Campaign Reports
+// Mock Weekly Metrics (for charts)
 // ============================================
 
-export const mockCampaignReports: CampaignReport[] = mockCampaigns.map(
-  (campaign) => ({
-    campaignId: campaign.id,
-    campaignName: campaign.name,
-    date: new Date().toISOString().split("T")[0],
-    impressions: campaign.impressions,
-    views: campaign.views,
-    clicks: campaign.clicks,
-    ctr:
-      campaign.impressions > 0
-        ? (campaign.clicks / campaign.impressions) * 100
-        : 0,
-    spend: campaign.spend,
-    cpc: campaign.clicks > 0 ? campaign.spend / campaign.clicks : 0,
-    cpm:
-      campaign.impressions > 0
-        ? (campaign.spend / campaign.impressions) * 1000
-        : 0,
-  }),
-);
+export const mockWeeklyMetrics: WeeklyMetrics[] = [
+  {
+    week: "Week 1",
+    startDate: "2024-02-01",
+    endDate: "2024-02-07",
+    impressions: 97000,
+    views: 48500,
+    clicks: 3900,
+    spend: 4850,
+  },
+  {
+    week: "Week 2",
+    startDate: "2024-02-08",
+    endDate: "2024-02-14",
+    impressions: 153000,
+    views: 76500,
+    clicks: 6120,
+    spend: 7650,
+  },
+];
 
 // ============================================
-// Mock Spend Reports
+// Mock Yearly Metrics (for charts)
 // ============================================
 
-export const mockSpendReports: SpendReport[] = mockCampaigns.map(
-  (campaign) => ({
-    campaignId: campaign.id,
-    campaignName: campaign.name,
-    totalBudget: campaign.budget,
-    spent: campaign.spend,
-    remaining: campaign.budget - campaign.spend,
-    startDate: campaign.startDate,
-    endDate: campaign.endDate,
-  }),
-);
+export const mockYearlyMetrics: YearlyMetrics[] = [
+  {
+    year: 2024,
+    month: "Jan",
+    impressions: 180000,
+    views: 90000,
+    clicks: 7200,
+    spend: 9000,
+  },
+  {
+    year: 2024,
+    month: "Feb",
+    impressions: 250000,
+    views: 125000,
+    clicks: 10020,
+    spend: 12500,
+  },
+];
 
 // ============================================
-// Mock Team Users
+// Mock Reports
 // ============================================
 
-export const mockTeamUsers: AdvertiserUser[] = [
+export const mockCampaignReports: CampaignReport[] = [
+  {
+    campaignId: "camp-1",
+    campaignName: "Summer Sale Promo",
+    date: "2024-02-01",
+    impressions: 12000,
+    views: 6000,
+    clicks: 480,
+    ctr: 4.0,
+    spend: 600,
+    cpc: 1.25,
+    cpm: 50,
+  },
+  {
+    campaignId: "camp-1",
+    campaignName: "Summer Sale Promo",
+    date: "2024-02-02",
+    impressions: 15000,
+    views: 7500,
+    clicks: 600,
+    ctr: 4.0,
+    spend: 750,
+    cpc: 1.25,
+    cpm: 50,
+  },
+  {
+    campaignId: "camp-2",
+    campaignName: "New Product Launch",
+    date: "2024-02-05",
+    impressions: 8000,
+    views: 4000,
+    clicks: 320,
+    ctr: 4.0,
+    spend: 400,
+    cpc: 1.25,
+    cpm: 50,
+  },
+  {
+    campaignId: "camp-2",
+    campaignName: "New Product Launch",
+    date: "2024-02-06",
+    impressions: 10000,
+    views: 5000,
+    clicks: 400,
+    ctr: 4.0,
+    spend: 500,
+    cpc: 1.25,
+    cpm: 50,
+  },
+];
+
+export const mockSpendReports: SpendReport[] = [
+  {
+    campaignId: "camp-1",
+    campaignName: "Summer Sale Promo",
+    totalBudget: 5000,
+    spent: 2500,
+    remaining: 2500,
+    startDate: "2024-02-01",
+    endDate: "2024-02-11",
+  },
+  {
+    campaignId: "camp-2",
+    campaignName: "New Product Launch",
+    totalBudget: 8000,
+    spent: 1800,
+    remaining: 6200,
+    startDate: "2024-02-05",
+    endDate: "2024-02-19",
+  },
+  {
+    campaignId: "camp-3",
+    campaignName: "Brand Awareness",
+    totalBudget: 3000,
+    spent: 900,
+    remaining: 2100,
+    startDate: "2024-02-08",
+    endDate: "2024-02-15",
+  },
+  {
+    campaignId: "camp-4",
+    campaignName: "Holiday Special",
+    totalBudget: 10000,
+    spent: 10000,
+    remaining: 0,
+    startDate: "2023-12-01",
+    endDate: "2023-12-31",
+  },
+];
+
+// ============================================
+// Mock Users
+// ============================================
+
+export const mockAdvertiserUsers: AdvertiserUser[] = [
   {
     id: "user-1",
     advertiserId: "adv-1",
-    email: "owner@example.com",
-    name: "John Marketing",
+    email: "john@example.com",
+    name: "John Owner",
     role: "owner",
     permissions: {
       canCreateCampaigns: true,
@@ -643,12 +706,12 @@ export const mockTeamUsers: AdvertiserUser[] = [
     },
     isActive: true,
     createdAt: "2024-01-10T08:00:00Z",
-    lastLoginAt: "2024-02-15T09:00:00Z",
+    lastLoginAt: "2024-02-14T09:00:00Z",
   },
   {
     id: "user-2",
     advertiserId: "adv-1",
-    email: "manager@example.com",
+    email: "sarah@example.com",
     name: "Sarah Manager",
     role: "manager",
     permissions: {
@@ -659,14 +722,14 @@ export const mockTeamUsers: AdvertiserUser[] = [
       canEditSettings: false,
     },
     isActive: true,
-    createdAt: "2024-01-15T10:00:00Z",
-    lastLoginAt: "2024-02-14T16:00:00Z",
+    createdAt: "2024-01-12T10:00:00Z",
+    lastLoginAt: "2024-02-13T14:30:00Z",
   },
   {
     id: "user-3",
     advertiserId: "adv-1",
-    email: "viewer@example.com",
-    name: "Tom Viewer",
+    email: "mike@example.com",
+    name: "Mike Viewer",
     role: "viewer",
     permissions: {
       canCreateCampaigns: false,
@@ -676,7 +739,7 @@ export const mockTeamUsers: AdvertiserUser[] = [
       canEditSettings: false,
     },
     isActive: true,
-    createdAt: "2024-02-01T12:00:00Z",
-    lastLoginAt: "2024-02-13T11:00:00Z",
+    createdAt: "2024-01-15T12:00:00Z",
+    lastLoginAt: "2024-02-10T11:15:00Z",
   },
 ];

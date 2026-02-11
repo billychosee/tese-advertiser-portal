@@ -138,7 +138,7 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
 
           {/* User Menu */}
           <div className="relative">
-            <button className="flex items-center gap-2 p-1 rounded-full bg-secondary hover:bg-secondary/80 transition-colors">
+            <button className="flex items-center gap-2 px-2 py-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors">
               <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-primary">JD</span>
               </div>
@@ -146,7 +146,7 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
                 John Doe
               </span>
               <Icons.ChevronDown
-                size={16}
+                size={14}
                 className="hidden sm:block text-muted-foreground"
               />
             </button>

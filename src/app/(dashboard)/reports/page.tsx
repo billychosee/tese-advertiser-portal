@@ -21,7 +21,155 @@ import { reportsApi, campaignsApi } from "@/services/api";
 import { formatCurrency, formatNumber, formatPercentage, cn } from "@/utils";
 import { CampaignReport, SpendReport, Campaign } from "@/types";
 
-const COLORS = ["#0ea5e9", "#8b5cf6", "#22c55e", "#f59e0b", "#ef4444"];
+const COLORS = ["#2e7d32", "#f9a825", "#c62828"];
+
+// Tab Navigation - horizontal tabs within a single card, half-half centered
+const TabNav = ({
+  tabs,
+  activeTab,
+  onTabChange,
+}: {
+  tabs: { id: string; label: string; icon: React.ElementType }[];
+  activeTab: string;
+  onTabChange: (id: string) => void;
+}) => (
+  <div className="flex items-center justify-center gap-3 p-2 bg-card border border-border rounded-2xl mb-6">
+    {tabs.map((tab) => (
+      <button
+        key={tab.id}
+        onClick={() => onTabChange(tab.id)}
+        className={cn(
+          "flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 flex-1",
+          activeTab === tab.id
+            ? "bg-primary text-primary-foreground shadow-lg font-medium"
+            : "bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground",
+        )}
+      >
+        <tab.icon size={18} />
+        <span>{tab.label}</span>
+      </button>
+    ))}
+  </div>
+);
+
+// Measurement Card with theme-aware colors (white cards, colored icons)
+const MeasurementCard = ({
+  title,
+  value,
+  color,
+  icon: Icon,
+  isCurrency = false,
+  isPercentage = false,
+}: any) => {
+  // Project color configurations - only icons are colored (using product colors)
+  const colorConfig = {
+    green: {
+      light: {
+        bg: "bg-white",
+        border: "border-gray-200",
+        iconBg: "bg-[#2e7d32]/10",
+        icon: "text-[#2e7d32]",
+        title: "text-gray-600",
+        value: "text-gray-900",
+      },
+      dark: {
+        bg: "dark:bg-gray-800",
+        border: "dark:border-gray-700",
+        iconBg: "dark:bg-[#2e7d32]/20",
+        icon: "dark:text-[#2e7d32]",
+        title: "dark:text-gray-400",
+        value: "dark:text-white",
+      },
+    },
+    red: {
+      light: {
+        bg: "bg-white",
+        border: "border-gray-200",
+        iconBg: "bg-[#c62828]/10",
+        icon: "text-[#c62828]",
+        title: "text-gray-600",
+        value: "text-gray-900",
+      },
+      dark: {
+        bg: "dark:bg-gray-800",
+        border: "dark:border-gray-700",
+        iconBg: "dark:bg-[#c62828]/20",
+        icon: "dark:text-[#c62828]",
+        title: "dark:text-gray-400",
+        value: "dark:text-white",
+      },
+    },
+    gold: {
+      light: {
+        bg: "bg-white",
+        border: "border-gray-200",
+        iconBg: "bg-[#f9a825]/10",
+        icon: "text-[#f9a825]",
+        title: "text-gray-600",
+        value: "text-gray-900",
+      },
+      dark: {
+        bg: "dark:bg-gray-800",
+        border: "dark:border-gray-700",
+        iconBg: "dark:bg-[#f9a825]/20",
+        icon: "dark:text-[#f9a825]",
+        title: "dark:text-gray-400",
+        value: "dark:text-white",
+      },
+    },
+  };
+
+  const config =
+    colorConfig[color as keyof typeof colorConfig] || colorConfig.green;
+
+  const formatValue = (val: number) => {
+    if (isCurrency) return formatCurrency(val);
+    if (isPercentage) return formatPercentage(val);
+    return formatNumber(val);
+  };
+
+  return (
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-2xl border p-5 transition-all hover:scale-[1.02] cursor-pointer",
+        config.light.bg,
+        config.light.border,
+        config.dark.bg,
+        config.dark.border,
+      )}
+    >
+      <div className="flex items-center gap-3 mb-4">
+        <div
+          className={cn(
+            "p-2.5 rounded-full",
+            config.light.iconBg,
+            config.dark.iconBg,
+          )}
+        >
+          <Icon size={18} className={cn(config.light.icon, config.dark.icon)} />
+        </div>
+        <p
+          className={cn(
+            "text-xs font-semibold uppercase tracking-wide",
+            config.light.title,
+            config.dark.title,
+          )}
+        >
+          {title}
+        </p>
+      </div>
+      <h3
+        className={cn(
+          "text-2xl font-bold tracking-tight",
+          config.light.value,
+          config.dark.value,
+        )}
+      >
+        {formatValue(value as number)}
+      </h3>
+    </div>
+  );
+};
 
 const ReportsPage: React.FC = () => {
   const [campaignReports, setCampaignReports] = useState<CampaignReport[]>([]);
@@ -121,68 +269,56 @@ const ReportsPage: React.FC = () => {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-        <Card padding="sm">
-          <p className="text-2xl font-bold text-foreground">
-            {formatNumber(totalImpressions)}
-          </p>
-          <p className="text-sm text-muted-foreground">Total Impressions</p>
-        </Card>
-        <Card padding="sm">
-          <p className="text-2xl font-bold text-foreground">
-            {formatNumber(totalClicks)}
-          </p>
-          <p className="text-sm text-muted-foreground">Total Clicks</p>
-        </Card>
-        <Card padding="sm">
-          <p className="text-2xl font-bold text-foreground">
-            {formatCurrency(totalSpend)}
-          </p>
-          <p className="text-sm text-muted-foreground">Total Spend</p>
-        </Card>
-        <Card padding="sm">
-          <p className="text-2xl font-bold text-foreground">
-            {formatPercentage(
-              totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0,
-            )}
-          </p>
-          <p className="text-sm text-muted-foreground">Average CTR</p>
-        </Card>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <MeasurementCard
+          title="Total Impressions"
+          value={totalImpressions}
+          color="green"
+          icon={Icons.Eye}
+        />
+        <MeasurementCard
+          title="Total Clicks"
+          value={totalClicks}
+          color="green"
+          icon={Icons.TrendingUp}
+        />
+        <MeasurementCard
+          title="Total Spend"
+          value={totalSpend}
+          color="gold"
+          icon={Icons.Wallet}
+          isCurrency
+        />
+        <MeasurementCard
+          title="Average CTR"
+          value={
+            totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0
+          }
+          color="red"
+          icon={Icons.TrendingUp}
+          isPercentage
+        />
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={() => setActiveTab("performance")}
-          className={cn(
-            "px-4 py-2 rounded-lg font-medium transition-colors",
-            activeTab === "performance"
-              ? "bg-primary text-primary-foreground"
-              : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-          )}
-        >
-          Performance
-        </button>
-        <button
-          onClick={() => setActiveTab("spend")}
-          className={cn(
-            "px-4 py-2 rounded-lg font-medium transition-colors",
-            activeTab === "spend"
-              ? "bg-primary text-primary-foreground"
-              : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-          )}
-        >
-          Spend Analysis
-        </button>
+      {/* Tab Navigation */}
+      <div className="mb-6">
+        <TabNav
+          tabs={[
+            { id: "performance", label: "Performance", icon: Icons.TrendingUp },
+            { id: "spend", label: "Spend Analysis", icon: Icons.Wallet },
+          ]}
+          activeTab={activeTab}
+          onTabChange={(tab) => setActiveTab(tab as "performance" | "spend")}
+        />
       </div>
 
       {/* Filters */}
-      <Card className="mb-6">
-        <div className="flex flex-col sm:flex-row gap-4">
+      <div className="mb-6">
+        <div className="relative">
           <select
             value={selectedCampaign}
             onChange={(e) => setSelectedCampaign(e.target.value)}
-            className="flex-1 px-4 py-2 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
+            className="block w-full rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none appearance-none cursor-pointer"
           >
             <option value="all">All Campaigns</option>
             {campaigns.map((campaign) => (
@@ -191,8 +327,11 @@ const ReportsPage: React.FC = () => {
               </option>
             ))}
           </select>
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-muted-foreground">
+            <Icons.ChevronDown size={16} />
+          </div>
         </div>
-      </Card>
+      </div>
 
       {activeTab === "performance" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -221,11 +360,11 @@ const ReportsPage: React.FC = () => {
                   />
                   <Bar
                     dataKey="impressions"
-                    fill="#0ea5e9"
+                    fill="#2e7d32"
                     name="Impressions"
                   />
-                  <Bar dataKey="views" fill="#8b5cf6" name="Views" />
-                  <Bar dataKey="clicks" fill="#22c55e" name="Clicks" />
+                  <Bar dataKey="views" fill="#f9a825" name="Views" />
+                  <Bar dataKey="clicks" fill="#c62828" name="Clicks" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -312,7 +451,7 @@ const ReportsPage: React.FC = () => {
                     }}
                     formatter={(value: number) => [formatCurrency(value), ""]}
                   />
-                  <Bar dataKey="spent" fill="#0ea5e9" name="Spent" />
+                  <Bar dataKey="spent" fill="#2e7d32" name="Spent" />
                   <Bar
                     dataKey="remaining"
                     fill="var(--muted)"

@@ -150,6 +150,7 @@ export interface Category {
   name: string;
   description?: string;
   icon?: string;
+  image?: string;
   creatorCount: number;
   isActive: boolean;
 }
@@ -252,6 +253,25 @@ export interface SpendReport {
 
 export interface DailyMetrics {
   date: string;
+  impressions: number;
+  views: number;
+  clicks: number;
+  spend: number;
+}
+
+export interface WeeklyMetrics {
+  week: string;
+  startDate: string;
+  endDate: string;
+  impressions: number;
+  views: number;
+  clicks: number;
+  spend: number;
+}
+
+export interface YearlyMetrics {
+  year: number;
+  month: string;
   impressions: number;
   views: number;
   clicks: number;

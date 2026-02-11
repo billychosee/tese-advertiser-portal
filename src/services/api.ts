@@ -15,6 +15,8 @@ import {
   Wallet,
   CampaignReport,
   DailyMetrics,
+  WeeklyMetrics,
+  YearlyMetrics,
 } from "@/types";
 import {
   mockAdvertiser,
@@ -26,7 +28,7 @@ import {
   mockWeeklyMetrics,
   mockYearlyMetrics,
   mockSpendReports,
-  mockTeamUsers,
+  mockAdvertiserUsers,
   mockTransactions,
   mockCampaignReports,
   mockWallet,
@@ -280,7 +282,7 @@ export const dashboardApi = {
 
   getDailyMetrics: async (
     period: "daily" | "weekly" | "yearly" = "daily",
-  ): Promise<DailyMetrics[]> => {
+  ): Promise<(DailyMetrics | WeeklyMetrics | YearlyMetrics)[]> => {
     await delay(350);
     switch (period) {
       case "weekly":
@@ -379,12 +381,12 @@ export const reportsApi = {
 export const usersApi = {
   getAll: async (): Promise<AdvertiserUser[]> => {
     await delay(300);
-    return mockTeamUsers;
+    return mockAdvertiserUsers;
   },
 
   getById: async (id: string): Promise<AdvertiserUser | undefined> => {
     await delay(200);
-    return mockTeamUsers.find((u) => u.id === id);
+    return mockAdvertiserUsers.find((u) => u.id === id);
   },
 
   create: async (user: Partial<AdvertiserUser>): Promise<AdvertiserUser> => {
@@ -406,7 +408,7 @@ export const usersApi = {
       createdAt: new Date().toISOString(),
     };
 
-    mockTeamUsers.push(newUser);
+    mockAdvertiserUsers.push(newUser);
     return newUser;
   },
 
@@ -415,22 +417,22 @@ export const usersApi = {
     updates: Partial<AdvertiserUser>,
   ): Promise<AdvertiserUser> => {
     await delay(300);
-    const index = mockTeamUsers.findIndex((u) => u.id === id);
+    const index = mockAdvertiserUsers.findIndex((u) => u.id === id);
     if (index === -1) throw new Error("User not found");
 
-    mockTeamUsers[index] = {
-      ...mockTeamUsers[index],
+    mockAdvertiserUsers[index] = {
+      ...mockAdvertiserUsers[index],
       ...updates,
     };
 
-    return mockTeamUsers[index];
+    return mockAdvertiserUsers[index];
   },
 
   delete: async (id: string): Promise<void> => {
     await delay(200);
-    const index = mockTeamUsers.findIndex((u) => u.id === id);
+    const index = mockAdvertiserUsers.findIndex((u) => u.id === id);
     if (index !== -1) {
-      mockTeamUsers.splice(index, 1);
+      mockAdvertiserUsers.splice(index, 1);
     }
   },
 };

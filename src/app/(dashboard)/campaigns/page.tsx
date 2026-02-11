@@ -68,18 +68,18 @@ const CampaignsPage: React.FC = () => {
   const getStatusColor = (status: CampaignStatus) => {
     switch (status) {
       case "active":
-        return "bg-primary/10 text-primary";
+        return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
       case "paused":
-        return "bg-accent/10 text-accent";
+        return "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400";
       case "pending":
-        return "bg-secondary text-secondary-foreground";
+        return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400";
       case "completed":
-        return "bg-muted text-muted-foreground";
+        return "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400";
       case "suspended":
       case "deleted":
-        return "bg-destructive/10 text-destructive";
+        return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
       default:
-        return "bg-muted text-muted-foreground";
+        return "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400";
     }
   };
 
@@ -114,7 +114,13 @@ const CampaignsPage: React.FC = () => {
             onChange={(e) =>
               setStatusFilter(e.target.value as CampaignStatus | "all")
             }
-            className="px-4 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
+            className="px-3 py-2.5 pr-10 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground appearance-none cursor-pointer"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: "right 0.5rem center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "1.5em 1.5em",
+            }}
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
@@ -132,24 +138,50 @@ const CampaignsPage: React.FC = () => {
           {
             label: "Active",
             value: campaigns.filter((c) => c.status === "active").length,
+            icon: Icons.Play,
+            color: "green",
           },
           {
             label: "Paused",
             value: campaigns.filter((c) => c.status === "paused").length,
+            icon: Icons.Pause,
+            color: "amber",
           },
           {
             label: "Pending",
             value: campaigns.filter((c) => c.status === "pending").length,
+            icon: Icons.Clock,
+            color: "blue",
           },
           {
             label: "Completed",
             value: campaigns.filter((c) => c.status === "completed").length,
+            icon: Icons.Check,
+            color: "slate",
           },
         ].map((stat) => (
-          <Card key={stat.label} padding="sm">
-            <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-            <p className="text-sm text-muted-foreground">
-              {stat.label} Campaigns
+          <Card key={stat.label} padding="sm" className="relative overflow-hidden">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div
+                  className={cn(
+                    "p-1.5 rounded-full",
+                    stat.color === "green" && "bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400",
+                    stat.color === "amber" && "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
+                    stat.color === "blue" && "bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400",
+                    stat.color === "slate" && "bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-400",
+                  )}
+                >
+                  <stat.icon size={14} />
+                </div>
+                <p className="text-xs font-medium text-muted-foreground">
+                  {stat.label}
+                </p>
+              </div>
+              <p className="text-xl font-bold text-foreground">{stat.value}</p>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Campaigns
             </p>
           </Card>
         ))}
@@ -161,29 +193,32 @@ const CampaignsPage: React.FC = () => {
           <table className="w-full">
             <thead>
               <tr className="border-b border-border">
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
+                  Preview
+                </th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Campaign
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50 rounded-t-lg">
                   Status
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Impressions
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Views
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Clicks
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Budget
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Spend
                 </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
-                  View
+                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -193,6 +228,34 @@ const CampaignsPage: React.FC = () => {
                   key={campaign.id}
                   className="border-b border-border hover:bg-secondary"
                 >
+                  <td className="py-4 px-4">
+                    <button
+                      onClick={() => {
+                        setSelectedCampaign(campaign);
+                        setIsViewModalOpen(true);
+                      }}
+                      className="relative w-16 h-12 rounded-lg overflow-hidden group"
+                      title="Preview Video"
+                    >
+                      {campaign.thumbnailUrl ? (
+                        <img
+                          src={campaign.thumbnailUrl}
+                          alt={campaign.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-muted flex items-center justify-center">
+                          <Icons.Video size={16} className="text-muted-foreground" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Icons.Play size={20} className="text-white" />
+                      </div>
+                      <span className="absolute bottom-0.5 right-0.5 px-1 bg-black/70 text-white text-xs rounded">
+                        {campaign.duration}s
+                      </span>
+                    </button>
+                  </td>
                   <td className="py-4 px-4">
                     <div>
                       <p className="font-medium text-foreground">
@@ -270,11 +333,19 @@ const CampaignsPage: React.FC = () => {
           <div className="space-y-6">
             {/* Video Preview */}
             <div className="bg-muted rounded-lg p-4">
-              <div className="flex items-center justify-center h-48 bg-black/10 rounded-lg">
-                <Icons.Video size={48} className="text-muted-foreground" />
-              </div>
+              {selectedCampaign.videoUrl ? (
+                <video
+                  src={selectedCampaign.videoUrl}
+                  controls
+                  className="w-full max-h-80 mx-auto rounded-lg"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-48 bg-black/10 rounded-lg">
+                  <Icons.Video size={48} className="text-muted-foreground" />
+                </div>
+              )}
               <p className="text-sm text-muted-foreground text-center mt-2">
-                Video Preview - Max 30 secs
+                Video Preview - {selectedCampaign.duration}s
               </p>
             </div>
 
