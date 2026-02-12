@@ -12,6 +12,7 @@ import {
   SpendReport,
   WeeklyMetrics,
   YearlyMetrics,
+  Role,
 } from "@/types";
 
 // ============================================
@@ -509,43 +510,43 @@ export const mockDailyMetrics: DailyMetrics[] = [
   },
   {
     date: "2024-02-10",
-    impressions: 26000,
-    views: 13000,
-    clicks: 1040,
-    spend: 1300,
+    impressions: 32000,
+    views: 16000,
+    clicks: 1280,
+    spend: 1600,
   },
   {
     date: "2024-02-11",
+    impressions: 30000,
+    views: 15000,
+    clicks: 1200,
+    spend: 1500,
+  },
+  {
+    date: "2024-02-12",
+    impressions: 27000,
+    views: 13500,
+    clicks: 1080,
+    spend: 1350,
+  },
+  {
+    date: "2024-02-13",
     impressions: 24000,
     views: 12000,
     clicks: 960,
     spend: 1200,
   },
   {
-    date: "2024-02-12",
+    date: "2024-02-14",
     impressions: 21000,
     views: 10500,
     clicks: 840,
     spend: 1050,
   },
-  {
-    date: "2024-02-13",
-    impressions: 23000,
-    views: 11500,
-    clicks: 920,
-    spend: 1150,
-  },
-  {
-    date: "2024-02-14",
-    impressions: 27000,
-    views: 13500,
-    clicks: 1080,
-    spend: 1350,
-  },
 ];
 
 // ============================================
-// Mock Weekly Metrics (for charts)
+// Mock Weekly Metrics
 // ============================================
 
 export const mockWeeklyMetrics: WeeklyMetrics[] = [
@@ -553,47 +554,47 @@ export const mockWeeklyMetrics: WeeklyMetrics[] = [
     week: "Week 1",
     startDate: "2024-02-01",
     endDate: "2024-02-07",
-    impressions: 97000,
-    views: 48500,
-    clicks: 3900,
-    spend: 4850,
+    impressions: 117000,
+    views: 58500,
+    clicks: 4680,
+    spend: 5850,
   },
   {
     week: "Week 2",
     startDate: "2024-02-08",
     endDate: "2024-02-14",
-    impressions: 153000,
-    views: 76500,
-    clicks: 6120,
-    spend: 7650,
+    impressions: 181000,
+    views: 90500,
+    clicks: 7240,
+    spend: 9050,
   },
 ];
 
 // ============================================
-// Mock Yearly Metrics (for charts)
+// Mock Yearly Metrics
 // ============================================
 
 export const mockYearlyMetrics: YearlyMetrics[] = [
   {
     year: 2024,
     month: "Jan",
-    impressions: 180000,
-    views: 90000,
-    clicks: 7200,
-    spend: 9000,
+    impressions: 450000,
+    views: 225000,
+    clicks: 18000,
+    spend: 22500,
   },
   {
     year: 2024,
     month: "Feb",
-    impressions: 250000,
-    views: 125000,
-    clicks: 10020,
-    spend: 12500,
+    impressions: 298000,
+    views: 149000,
+    clicks: 11920,
+    spend: 14900,
   },
 ];
 
 // ============================================
-// Mock Reports
+// Mock Campaign Reports
 // ============================================
 
 export const mockCampaignReports: CampaignReport[] = [
@@ -607,7 +608,7 @@ export const mockCampaignReports: CampaignReport[] = [
     ctr: 4.0,
     spend: 600,
     cpc: 1.25,
-    cpm: 50,
+    cpm: 50.0,
   },
   {
     campaignId: "camp-1",
@@ -619,7 +620,7 @@ export const mockCampaignReports: CampaignReport[] = [
     ctr: 4.0,
     spend: 750,
     cpc: 1.25,
-    cpm: 50,
+    cpm: 50.0,
   },
   {
     campaignId: "camp-2",
@@ -629,9 +630,9 @@ export const mockCampaignReports: CampaignReport[] = [
     views: 4000,
     clicks: 320,
     ctr: 4.0,
-    spend: 400,
-    cpc: 1.25,
-    cpm: 50,
+    spend: 450,
+    cpc: 1.41,
+    cpm: 56.25,
   },
   {
     campaignId: "camp-2",
@@ -641,11 +642,15 @@ export const mockCampaignReports: CampaignReport[] = [
     views: 5000,
     clicks: 400,
     ctr: 4.0,
-    spend: 500,
-    cpc: 1.25,
-    cpm: 50,
+    spend: 562.5,
+    cpc: 1.41,
+    cpm: 56.25,
   },
 ];
+
+// ============================================
+// Mock Spend Reports
+// ============================================
 
 export const mockSpendReports: SpendReport[] = [
   {
@@ -675,19 +680,10 @@ export const mockSpendReports: SpendReport[] = [
     startDate: "2024-02-08",
     endDate: "2024-02-15",
   },
-  {
-    campaignId: "camp-4",
-    campaignName: "Holiday Special",
-    totalBudget: 10000,
-    spent: 10000,
-    remaining: 0,
-    startDate: "2023-12-01",
-    endDate: "2023-12-31",
-  },
 ];
 
 // ============================================
-// Mock Users
+// Mock Advertiser Users
 // ============================================
 
 export const mockAdvertiserUsers: AdvertiserUser[] = [
@@ -743,3 +739,58 @@ export const mockAdvertiserUsers: AdvertiserUser[] = [
     lastLoginAt: "2024-02-10T11:15:00Z",
   },
 ];
+
+// ============================================
+// Mock Roles
+// ============================================
+
+export const mockRoles: Role[] = [
+  {
+    id: "role-1",
+    name: "owner",
+    description: "Full access to all features",
+    isSystem: true,
+    permissions: {
+      canCreateCampaigns: true,
+      canAccessWallet: true,
+      canViewReports: true,
+      canManageUsers: true,
+      canEditSettings: true,
+    },
+    createdAt: "2024-01-10T08:00:00Z",
+    updatedAt: "2024-01-10T08:00:00Z",
+  },
+  {
+    id: "role-2",
+    name: "manager",
+    description: "Can manage campaigns and view reports",
+    isSystem: true,
+    permissions: {
+      canCreateCampaigns: true,
+      canAccessWallet: true,
+      canViewReports: true,
+      canManageUsers: false,
+      canEditSettings: false,
+    },
+    createdAt: "2024-01-10T08:00:00Z",
+    updatedAt: "2024-01-10T08:00:00Z",
+  },
+  {
+    id: "role-3",
+    name: "viewer",
+    description: "Read-only access to reports",
+    isSystem: true,
+    permissions: {
+      canCreateCampaigns: false,
+      canAccessWallet: false,
+      canViewReports: true,
+      canManageUsers: false,
+      canEditSettings: false,
+    },
+    createdAt: "2024-01-10T08:00:00Z",
+    updatedAt: "2024-01-10T08:00:00Z",
+  },
+];
+
+// Helper function to simulate API delay
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

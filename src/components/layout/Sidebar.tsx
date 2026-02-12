@@ -20,7 +20,7 @@ const navItems: NavItem[] = [
   { name: "Wallet", href: "/wallet", icon: Icons.Wallet },
   { name: "Campaigns", href: "/campaigns", icon: Icons.Campaign },
   { name: "Reports", href: "/reports", icon: Icons.Reports },
-  { name: "Team", href: "/users", icon: Icons.Users },
+  { name: "Users Roles and Permission", href: "/users", icon: Icons.Users },
   { name: "Settings", href: "/settings", icon: Icons.Settings },
 ];
 

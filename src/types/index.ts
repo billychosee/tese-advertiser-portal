@@ -57,7 +57,7 @@ export interface CompanyDetails {
 // User & Role Types
 // ============================================
 
-export type UserRole = 'owner' | 'manager' | 'viewer';
+export type UserRole = 'owner' | 'manager' | 'viewer' | 'custom';
 
 export interface Permission {
   canCreateCampaigns: boolean;
@@ -65,6 +65,16 @@ export interface Permission {
   canViewReports: boolean;
   canManageUsers: boolean;
   canEditSettings: boolean;
+}
+
+export interface Role {
+  id: string;
+  name: string;
+  description?: string;
+  isSystem: boolean; // System roles cannot be deleted
+  permissions: Permission;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AdvertiserUser {
@@ -79,7 +89,7 @@ export interface AdvertiserUser {
   lastLoginAt?: string;
 }
 
-export const DEFAULT_PERMISSIONS: Record<UserRole, Permission> = {
+export const DEFAULT_PERMISSIONS: Record<string, Permission> = {
   owner: {
     canCreateCampaigns: true,
     canAccessWallet: true,
@@ -95,6 +105,13 @@ export const DEFAULT_PERMISSIONS: Record<UserRole, Permission> = {
     canEditSettings: false,
   },
   viewer: {
+    canCreateCampaigns: false,
+    canAccessWallet: false,
+    canViewReports: true,
+    canManageUsers: false,
+    canEditSettings: false,
+  },
+  custom: {
     canCreateCampaigns: false,
     canAccessWallet: false,
     canViewReports: true,

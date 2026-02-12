@@ -11,6 +11,8 @@ import {
   KYCDocument,
   LoginCredentials,
   PaginatedResponse,
+  Permission,
+  Role,
   SpendReport,
   Transaction,
   Wallet,
@@ -30,6 +32,7 @@ import {
   mockYearlyMetrics,
   mockSpendReports,
   mockAdvertiserUsers,
+  mockRoles,
   mockTransactions,
   mockCampaignReports,
   mockWallet,
@@ -435,6 +438,78 @@ export const usersApi = {
     const index = mockAdvertiserUsers.findIndex((u) => u.id === id);
     if (index !== -1) {
       mockAdvertiserUsers.splice(index, 1);
+    }
+  },
+};
+
+// ============================================
+// Roles API
+// ============================================
+
+interface RoleCreateData {
+  name: string;
+  description?: string;
+  permissions: Permission;
+}
+
+export const rolesApi = {
+  getAll: async (): Promise<Role[]> => {
+    await delay(300);
+    return mockRoles;
+  },
+
+  getById: async (id: string): Promise<Role | undefined> => {
+    await delay(200);
+    return mockRoles.find((r) => r.id === id);
+  },
+
+  create: async (data: RoleCreateData): Promise<Role> => {
+    await delay(400);
+    const newRole: Role = {
+      id: "role-" + Date.now(),
+      name: data.name,
+      description: data.description,
+      isSystem: false,
+      permissions: data.permissions,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    mockRoles.push(newRole);
+    return newRole;
+  },
+
+  update: async (
+    id: string,
+    updates: Partial<RoleCreateData>,
+  ): Promise<Role> => {
+    await delay(300);
+    const index = mockRoles.findIndex((r) => r.id === id);
+    if (index === -1) throw new Error("Role not found");
+
+    if (mockRoles[index].isSystem) {
+      throw new Error("System roles cannot be modified");
+    }
+
+    mockRoles[index] = {
+      ...mockRoles[index],
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+
+    return mockRoles[index];
+  },
+
+  delete: async (id: string): Promise<void> => {
+    await delay(200);
+    const role = mockRoles.find((r) => r.id === id);
+    if (role?.isSystem) {
+      throw new Error("System roles cannot be deleted");
+    }
+
+    const index = mockRoles.findIndex((r) => r.id === id);
+    if (index !== -1) {
+      mockRoles.splice(index, 1);
     }
   },
 };
