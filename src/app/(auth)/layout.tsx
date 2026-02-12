@@ -13,11 +13,11 @@ const slides = [
     text: "TESE: Empowering Brands, Elevating Reach.",
   },
   {
-    image: "/marketing-strategy.png",
+    image: "/Tese-data-driven-advertising-at-scale.png",
     text: "Data-Driven Advertising at Scale.",
   },
   {
-    image: "/digital-growth.png",
+    image: "/Tese-sports.jpeg",
     text: "Your Vision, Our Global Network.",
   },
 ];
@@ -111,7 +111,9 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         <div
           className={`w-full ${isRegisterPage ? "p-6" : "lg:w-1/2 flex flex-col items-center justify-center p-8 sm:p-16"} bg-white dark:bg-[#1A1A1A]`}
         >
-          <div className={`w-full ${isRegisterPage ? "max-w-full" : "max-w-md"}`}>
+          <div
+            className={`w-full ${isRegisterPage ? "max-w-full" : "max-w-md"}`}
+          >
             {children}
           </div>
         </div>
