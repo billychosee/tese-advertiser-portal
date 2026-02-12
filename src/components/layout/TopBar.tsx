@@ -22,6 +22,7 @@ interface TopBarProps {
 const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
   const router = useRouter();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [notifications, setNotifications] = useState(3);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const { toggleMobileSidebar } = useSidebar();
@@ -129,6 +130,15 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
             <input
               type="text"
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchQuery.trim()) {
+                  // Implement search functionality here
+                  console.log("Searching for:", searchQuery);
+                  // Could navigate to search results page
+                }
+              }}
               className="w-64 pl-10 pr-4 py-2 text-sm bg-muted border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
             />
             <Icons.Search
@@ -222,6 +232,13 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
             <input
               type="text"
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchQuery.trim()) {
+                  console.log("Searching for:", searchQuery);
+                }
+              }}
               className="w-full pl-10 pr-4 py-2 text-sm bg-muted border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
               autoFocus
             />

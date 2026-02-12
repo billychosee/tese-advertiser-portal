@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   AreaChart,
   Area,
@@ -13,9 +14,11 @@ import {
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
 import { Icons } from "@/components/ui/Icons";
-import { dashboardApi } from "@/services/api";
+import { dashboardApi, walletApi } from "@/services/api";
 import { formatCurrency, formatNumber, cn } from "@/utils";
+import Input from "@/components/ui/Input";
 
 // Measurement Card with theme-aware colors (white cards, colored icons)
 const MeasurementCard = ({
@@ -134,6 +137,8 @@ const DashboardPage = () => {
   const [metrics, setMetrics] = useState<any>(null);
   const [dailyMetrics, setDailyMetrics] = useState<any[]>([]);
   const [topUpAmount, setTopUpAmount] = useState("");
+  const [isTopUpModalOpen, setIsTopUpModalOpen] = useState(false);
+  const [isTopUpLoading, setIsTopUpLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,6 +151,23 @@ const DashboardPage = () => {
     };
     fetchData();
   }, [period]);
+
+  const handleTopUp = async () => {
+    if (!topUpAmount || parseFloat(topUpAmount) <= 0) return;
+    setIsTopUpLoading(true);
+    try {
+      await walletApi.topUp(parseFloat(topUpAmount), "DirectPay");
+      setIsTopUpModalOpen(false);
+      setTopUpAmount("");
+      // Refresh data
+      const m = await dashboardApi.getMetrics();
+      setMetrics(m);
+    } catch (error) {
+      console.error("Top-up failed:", error);
+    } finally {
+      setIsTopUpLoading(false);
+    }
+  };
 
   return (
     <DashboardLayout title="Dashboard">
@@ -204,7 +226,10 @@ const DashboardPage = () => {
                   onChange={(e) => setTopUpAmount(e.target.value)}
                 />
               </div>
-              <Button className="w-full bg-primary hover:bg-primary/90 py-4 rounded-[20px] font-bold uppercase tracking-widest text-xs transition-all">
+              <Button
+                className="w-full bg-primary hover:bg-primary/90 py-4 rounded-[20px] font-bold uppercase tracking-widest text-xs transition-all"
+                onClick={() => setIsTopUpModalOpen(true)}
+              >
                 Top up Wallet
               </Button>
             </div>
@@ -233,9 +258,11 @@ const DashboardPage = () => {
                   )}
                 </div>
               </div>
-              <Button className="bg-background text-primary hover:bg-background/90 font-black uppercase tracking-[0.2em] text-xs px-10 py-5 rounded-[20px] mt-8 shadow-2xl">
-                Get Started
-              </Button>
+              <Link href="/campaigns/create">
+                <Button className="bg-background text-primary hover:bg-background/90 font-black uppercase tracking-[0.2em] text-xs px-10 py-5 rounded-[20px] mt-8 shadow-2xl">
+                  Get Started
+                </Button>
+              </Link>
             </div>
             <Icons.Campaign className="absolute -bottom-16 -right-16 w-80 h-80 text-black/10 rotate-12 group-hover:rotate-0 transition-all duration-700 ease-out" />
           </Card>
@@ -407,7 +434,62 @@ const DashboardPage = () => {
           </div>
         </Card>
       </div>
-    </DashboardLayout>
+        {/* Top Up Modal */}
+        <Modal
+          isOpen={isTopUpModalOpen}
+          onClose={() => setIsTopUpModalOpen(false)}
+          title="Top Up Wallet"
+          size="sm"
+        >
+          <div className="space-y-4">
+            <Input
+              label="Amount (USD)"
+              type="number"
+              value={topUpAmount}
+              onChange={(e) => setTopUpAmount(e.target.value)}
+              placeholder="Enter amount"
+              leftIcon={
+                <span className="text-muted-foreground font-bold">$</span>
+              }
+            />
+
+            <div className="grid grid-cols-3 gap-2">
+              {[100, 500, 1000, 2000, 5000, 10000].map((amount) => (
+                <button
+                  key={amount}
+                  onClick={() => setTopUpAmount(amount.toString())}
+                  className={cn(
+                    "py-2 px-4 rounded-lg border font-medium transition-colors",
+                    topUpAmount === amount.toString()
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-input hover:border-primary",
+                  )}
+                >
+                  ${amount}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setIsTopUpModalOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={handleTopUp}
+                isLoading={isTopUpLoading}
+                disabled={!topUpAmount || parseFloat(topUpAmount) <= 0}
+              >
+                Top Up
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      </DashboardLayout>
   );
 };
 

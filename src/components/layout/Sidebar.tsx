@@ -133,6 +133,8 @@ const Sidebar: React.FC = () => {
                   )}
 
                   {/* Notification Badge */}
+                  {/* Note: Currently only shows for Campaigns as it tracks pending/new campaign drafts.
+                     Can be extended to other items (e.g., Wallet for pending transactions) if needed. */}
                   {item.name === "Campaigns" &&
                     !isCollapsed &&
                     campaignCount > 0 && (

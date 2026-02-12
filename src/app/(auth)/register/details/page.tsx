@@ -64,6 +64,11 @@ const RegisterDetailsPage: React.FC = () => {
 
   // OTP state
   const [otp, setOtp] = useState("");
+  const [formErrors, setFormErrors] = useState<{
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  }>({});
 
   // --- Handlers (Full Logic Restored) ---
 
@@ -129,19 +134,20 @@ const RegisterDetailsPage: React.FC = () => {
   };
 
   const validateForm = () => {
-    if (!email.includes("@")) {
-      alert("Enter a valid email");
-      return false;
+    const errors: typeof formErrors = {};
+    
+    if (!email || !email.includes("@")) {
+      errors.email = "Please enter a valid email address";
     }
     if (password.length < 8) {
-      alert("Password too short");
-      return false;
+      errors.password = "Password must be at least 8 characters";
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
-      return false;
+      errors.confirmPassword = "Passwords do not match";
     }
-    return true;
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleSubmitDetails = async () => {
@@ -513,25 +519,37 @@ const RegisterDetailsPage: React.FC = () => {
                   label="Email Address"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setFormErrors((prev) => ({ ...prev, email: undefined }));
+                  }}
                   placeholder="email@domain.com"
+                  error={formErrors.email}
                 />
                 <div className="grid grid-cols-2 gap-3 mt-3">
                   <Input
                     label="Password"
                     type="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setFormErrors((prev) => ({ ...prev, password: undefined }));
+                    }}
                     placeholder="Min 8 chars"
                     showPasswordToggle
+                    error={formErrors.password}
                   />
                   <Input
                     label="Confirm Password"
                     type="password"
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                      setFormErrors((prev) => ({ ...prev, confirmPassword: undefined }));
+                    }}
                     placeholder="Confirm"
                     showPasswordToggle
+                    error={formErrors.confirmPassword}
                   />
                 </div>
               </div>

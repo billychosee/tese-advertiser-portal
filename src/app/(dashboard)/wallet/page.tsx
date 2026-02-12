@@ -15,6 +15,7 @@ import { Wallet, Transaction } from "@/types";
 const WalletPage: React.FC = () => {
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [isTopUpModalOpen, setIsTopUpModalOpen] = useState(false);
   const [topUpAmount, setTopUpAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +30,7 @@ const WalletPage: React.FC = () => {
     const transactionsData = await walletApi.getTransactions(page);
     setWallet(walletData);
     setTransactions(transactionsData.data);
+    setTotalCount(transactionsData.total || 0);
   };
 
   const handleTopUp = async () => {
@@ -203,8 +205,8 @@ const WalletPage: React.FC = () => {
         {/* Pagination */}
         <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
           <p className="text-sm text-muted-foreground">
-            Showing {(page - 1) * 10 + 1} to {page * 10} of{" "}
-            {transactions.length} transactions
+            Showing {(page - 1) * 10 + 1} to {Math.min(page * 10, totalCount)} of{" "}
+            {totalCount} transactions
           </p>
           <div className="flex gap-2">
             <Button

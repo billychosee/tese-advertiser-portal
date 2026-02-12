@@ -56,16 +56,16 @@ export function calculateCPM(spend: number, impressions: number): number {
 
 export function getStatusColor(status: string): string {
   const colors: Record<string, string> = {
-    active: 'bg-green-100 text-green-800',
-    paused: 'bg-yellow-100 text-yellow-800',
-    pending: 'bg-blue-100 text-blue-800',
-    completed: 'bg-gray-100 text-gray-800',
-    suspended: 'bg-red-100 text-red-800',
-    deleted: 'bg-red-100 text-red-800',
-    approved: 'bg-green-100 text-green-800',
-    rejected: 'bg-red-100 text-red-800',
+    active: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    paused: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+    pending: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+    completed: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400',
+    suspended: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+    deleted: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+    approved: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+    rejected: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
   };
-  return colors[status] || 'bg-gray-100 text-gray-800';
+  return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400';
 }
 
 export function getCampaignStatusColor(status: string): string {

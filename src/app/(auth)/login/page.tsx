@@ -8,11 +8,12 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { cn } from "@/utils";
+import { DEMO_CREDENTIALS } from "@/utils/constants";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("demo@example.com");
-  const [password, setPassword] = useState("demo123");
+  const [email, setEmail] = useState(DEMO_CREDENTIALS.email);
+  const [password, setPassword] = useState(DEMO_CREDENTIALS.password);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +24,10 @@ const LoginPage: React.FC = () => {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      if (email === "demo@example.com" && password === "demo123") {
+      if (
+        email === DEMO_CREDENTIALS.email &&
+        password === DEMO_CREDENTIALS.password
+      ) {
         router.push("/dashboard");
       } else {
         setError("Invalid email or password");
@@ -50,9 +54,7 @@ const LoginPage: React.FC = () => {
             height={60}
             className="mx-auto mb-4"
           />
-          <h2 className="text-2xl font-bold text-foreground">
-            Welcome Back
-          </h2>
+          <h2 className="text-2xl font-bold text-foreground">Welcome Back</h2>
           <p className="text-sm text-muted-foreground mt-1">
             Enter your credentials to access your account
           </p>
