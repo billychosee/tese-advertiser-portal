@@ -82,6 +82,7 @@ import {
   Loader,
   Shield,
   Laptop,
+  Crown,
 } from "lucide-react";
 
 export const Icons = {
@@ -166,6 +167,7 @@ export const Icons = {
   Loader: Loader,
   Shield: Shield,
   Laptop: Laptop,
+  Crown: Crown,
 };
 
 export type IconNames = keyof typeof Icons;

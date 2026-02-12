@@ -112,8 +112,10 @@ const CampaignsPageContent: React.FC = () => {
             Manage your advertising campaigns
           </p>
         </div>
-        <Link href="/campaigns/create">
-          <Button leftIcon={<Icons.Plus size={18} />}>Create Campaign</Button>
+        <Link href="/campaigns/create" className="w-full sm:w-auto">
+          <Button leftIcon={<Icons.Plus size={18} />} className="w-full">
+            Create Campaign
+          </Button>
         </Link>
       </div>
 
@@ -178,16 +180,24 @@ const CampaignsPageContent: React.FC = () => {
             color: "slate",
           },
         ].map((stat) => (
-          <Card key={stat.label} padding="sm" className="relative overflow-hidden">
+          <Card
+            key={stat.label}
+            padding="sm"
+            className="relative overflow-hidden"
+          >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <div
                   className={cn(
                     "p-1.5 rounded-full",
-                    stat.color === "green" && "bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400",
-                    stat.color === "amber" && "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
-                    stat.color === "blue" && "bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400",
-                    stat.color === "slate" && "bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-400",
+                    stat.color === "green" &&
+                      "bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400",
+                    stat.color === "amber" &&
+                      "bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
+                    stat.color === "blue" &&
+                      "bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400",
+                    stat.color === "slate" &&
+                      "bg-slate-100 text-slate-600 dark:bg-slate-500/20 dark:text-slate-400",
                   )}
                 >
                   <stat.icon size={14} />
@@ -198,15 +208,160 @@ const CampaignsPageContent: React.FC = () => {
               </div>
               <p className="text-xl font-bold text-foreground">{stat.value}</p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Campaigns
-            </p>
+            <p className="text-xs text-muted-foreground">Campaigns</p>
           </Card>
         ))}
       </div>
 
-      {/* Campaigns Table */}
-      <Card>
+      {/* Campaigns Mobile Card View */}
+      <div className="lg:hidden space-y-3">
+        {filteredCampaigns.map((campaign) => (
+          <Card key={campaign.id} padding="none" className="overflow-hidden">
+            {/* Video Preview Header */}
+            <div className="relative aspect-video bg-muted">
+              {campaign.thumbnailUrl ? (
+                <img
+                  src={campaign.thumbnailUrl}
+                  alt={campaign.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Icons.Video size={40} className="text-muted-foreground" />
+                </div>
+              )}
+              <div
+                className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer"
+                onClick={() => {
+                  setSelectedCampaign(campaign);
+                  setIsViewModalOpen(true);
+                }}
+              >
+                <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center">
+                  <Icons.Play size={24} className="text-foreground ml-1" />
+                </div>
+              </div>
+              <span className="absolute bottom-2 right-2 px-2 py-0.5 bg-black/70 text-white text-xs rounded">
+                {campaign.duration}s
+              </span>
+              <span
+                className={cn(
+                  "absolute top-2 left-2 px-2.5 py-1 rounded-full text-xs font-medium",
+                  getStatusColor(campaign.status),
+                )}
+              >
+                {campaign.status}
+              </span>
+            </div>
+
+            {/* Campaign Info */}
+            <div className="p-4">
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <div>
+                  <h3 className="font-semibold text-foreground line-clamp-1">
+                    {campaign.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Created {formatDate(campaign.createdAt)}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setSelectedCampaign(campaign);
+                    setIsViewModalOpen(true);
+                  }}
+                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
+                >
+                  <Icons.Eye size={18} />
+                </button>
+              </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                  <p className="text-lg font-bold text-foreground">
+                    {formatNumber(campaign.impressions)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Impressions</p>
+                </div>
+                <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                  <p className="text-lg font-bold text-foreground">
+                    {formatNumber(campaign.views)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Views</p>
+                </div>
+                <div className="bg-secondary/50 rounded-lg p-2.5 text-center">
+                  <p className="text-lg font-bold text-foreground">
+                    {formatNumber(campaign.clicks)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Clicks</p>
+                </div>
+              </div>
+
+              {/* Budget & Actions */}
+              <div className="flex items-center justify-between pt-3 border-t border-border">
+                <div className="flex items-center gap-1.5">
+                  <Icons.CreditCard
+                    size={16}
+                    className="text-muted-foreground"
+                  />
+                  <span className="font-medium text-foreground">
+                    {formatCurrency(campaign.spend)}
+                  </span>
+                  <span className="text-sm text-muted-foreground">spent</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  {campaign.status === "active" && (
+                    <button
+                      onClick={() => handlePause(campaign)}
+                      className="p-1.5 text-muted-foreground hover:text-amber-500 hover:bg-secondary rounded-lg transition-colors"
+                      title="Pause"
+                    >
+                      <Icons.Pause size={16} />
+                    </button>
+                  )}
+                  {campaign.status === "paused" && (
+                    <button
+                      onClick={() => handlePause(campaign)}
+                      className="p-1.5 text-muted-foreground hover:text-green-500 hover:bg-secondary rounded-lg transition-colors"
+                      title="Resume"
+                    >
+                      <Icons.Play size={16} />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => {
+                      setSelectedCampaign(campaign);
+                      setIsDeleteModalOpen(true);
+                    }}
+                    className="p-1.5 text-muted-foreground hover:text-destructive hover:bg-secondary rounded-lg transition-colors"
+                    title="Delete"
+                  >
+                    <Icons.Trash size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Card>
+        ))}
+
+        {filteredCampaigns.length === 0 && (
+          <div className="text-center py-16">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-secondary flex items-center justify-center">
+              <Icons.Campaign size={32} className="text-muted-foreground" />
+            </div>
+            <p className="text-muted-foreground mb-4">No campaigns found</p>
+            <Link href="/campaigns/create">
+              <Button leftIcon={<Icons.Plus size={18} />}>
+                Create Your First Campaign
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {/* Campaigns Table - Desktop */}
+      <Card className="hidden lg:block">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -260,7 +415,10 @@ const CampaignsPageContent: React.FC = () => {
                         />
                       ) : (
                         <div className="w-full h-full bg-muted flex items-center justify-center">
-                          <Icons.Video size={16} className="text-muted-foreground" />
+                          <Icons.Video
+                            size={16}
+                            className="text-muted-foreground"
+                          />
                         </div>
                       )}
                       <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -499,16 +657,15 @@ const CampaignsPageContent: React.FC = () => {
             <strong>{selectedCampaign?.name}</strong>? This action cannot be
             undone.
           </p>
-          <div className="flex gap-3">
+          <div className="flex justify-end gap-2">
             <Button
               variant="outline"
-              className="flex-1"
               onClick={() => setIsDeleteModalOpen(false)}
             >
               Cancel
             </Button>
-            <Button variant="danger" className="flex-1" onClick={handleDelete}>
-              Delete
+            <Button variant="danger" onClick={handleDelete}>
+              Delete Campaign
             </Button>
           </div>
         </div>

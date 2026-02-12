@@ -32,7 +32,10 @@ const DashboardContent: React.FC<DashboardLayoutProps> = ({
       <div
         className={cn(
           "transition-all duration-300",
-          isCollapsed ? "pl-20" : "pl-72",
+          // Mobile: no padding when sidebar is open (full width)
+          "lg:pl-20",
+          // Desktop: adjust based on collapsed state
+          isCollapsed ? "lg:pl-20" : "lg:pl-72",
         )}
       >
         <TopBar title={title} breadcrumbs={breadcrumbs} />

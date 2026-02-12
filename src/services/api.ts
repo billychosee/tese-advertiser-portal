@@ -8,6 +8,7 @@ import {
   Category,
   Creator,
   DashboardMetrics,
+  KYCDocument,
   LoginCredentials,
   PaginatedResponse,
   SpendReport,
@@ -73,6 +74,7 @@ export const authApi = {
 
   logout: async (): Promise<void> => {
     await delay(200);
+    // Clear any stored tokens or user data here if needed
   },
 
   getCurrentUser: async (): Promise<AuthResponse["user"]> => {
@@ -455,7 +457,10 @@ export const advertiserApi = {
     return mockAdvertiser;
   },
 
-  changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
+  changePassword: async (
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<void> => {
     await delay(500);
     // Simulate password change
     if (currentPassword === newPassword) {
@@ -467,7 +472,8 @@ export const advertiserApi = {
     await delay(500);
     return {
       secret: "JBSWY3DPEHPK3PXP",
-      qrCode: "otpauth://totp/TESE:demo@example.com?secret=JBSWY3DPEHPK3PXP&issuer=TESE",
+      qrCode:
+        "otpauth://totp/TESE:demo@example.com?secret=JBSWY3DPEHPK3PXP&issuer=TESE",
     };
   },
 
@@ -478,6 +484,29 @@ export const advertiserApi = {
 
   signOutAllSessions: async (): Promise<void> => {
     await delay(500);
+  },
+
+  uploadKyc: async (file: File, type: string): Promise<KYCDocument> => {
+    await delay(800);
+    const newDoc: KYCDocument = {
+      id: "doc-" + Date.now(),
+      type,
+      fileName: file.name,
+      fileUrl: URL.createObjectURL(file),
+      status: "pending",
+      uploadedAt: new Date().toISOString(),
+    };
+    mockAdvertiser.kycDocuments.push(newDoc);
+    mockAdvertiser.kycStatus = "pending";
+    return newDoc;
+  },
+
+  deleteKycDocument: async (docId: string): Promise<void> => {
+    await delay(300);
+    const index = mockAdvertiser.kycDocuments.findIndex((d) => d.id === docId);
+    if (index !== -1) {
+      mockAdvertiser.kycDocuments.splice(index, 1);
+    }
   },
 };
 

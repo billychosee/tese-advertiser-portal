@@ -3,9 +3,12 @@
 import React, { useState } from "react";
 import { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { cn } from "@/utils";
 import { Icons } from "@/components/ui/Icons";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { useSidebar } from "./SidebarContext";
+import { authApi } from "@/services/api";
 
 interface TopBarProps {
   title?: string;
@@ -17,9 +20,11 @@ interface TopBarProps {
 }
 
 const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
+  const router = useRouter();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [notifications, setNotifications] = useState(3);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { toggleMobileSidebar } = useSidebar();
 
   const getPageIcon = (pageTitle: string): LucideIcon => {
     const iconMap: Record<string, LucideIcon> = {
@@ -48,8 +53,16 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
       <div className="flex items-center justify-between h-14 px-4 sm:px-6">
         {/* Breadcrumbs or Title */}
         <div className="flex items-center gap-3">
+          {/* Mobile Hamburger Menu */}
+          <button
+            onClick={toggleMobileSidebar}
+            className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors mr-1"
+          >
+            <Icons.Menu size={20} />
+          </button>
+
           {displayBreadcrumbs.length > 0 ? (
-            <nav className="flex items-center gap-2 text-sm">
+            <nav className="hidden sm:flex items-center gap-2 text-sm">
               {displayBreadcrumbs.map((crumb, index) => (
                 <React.Fragment key={index}>
                   {index > 0 && (
@@ -93,9 +106,16 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
               ))}
             </nav>
           ) : (
-            title && (
-              <h1 className="text-xl font-semibold text-foreground">{title}</h1>
-            )
+            <h1 className="hidden sm:block text-xl font-semibold text-foreground">
+              {title}
+            </h1>
+          )}
+
+          {/* Mobile Title - shown when breadcrumbs are hidden */}
+          {displayBreadcrumbs.length === 0 && title && (
+            <h1 className="sm:hidden text-lg font-semibold text-foreground">
+              {title}
+            </h1>
           )}
         </div>
 
@@ -180,7 +200,11 @@ const TopBar: React.FC<TopBarProps> = ({ title, breadcrumbs }) => {
                 <hr className="my-1 border-border" />
                 <button
                   className="flex items-center gap-2 px-4 py-2 text-sm text-destructive hover:bg-secondary w-full text-left transition-colors"
-                  onClick={() => setIsUserMenuOpen(false)}
+                  onClick={async () => {
+                    setIsUserMenuOpen(false);
+                    await authApi.logout();
+                    router.push("/login");
+                  }}
                 >
                   <Icons.Logout size={16} />
                   Sign Out

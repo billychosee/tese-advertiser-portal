@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
@@ -23,6 +23,8 @@ const SettingsPage: React.FC = () => {
     phone: "",
     address: "",
   });
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     loadAdvertiser();
@@ -46,6 +48,34 @@ const SettingsPage: React.FC = () => {
       await loadAdvertiser();
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      // Determine document type based on file name
+      const docType = file.name.toLowerCase().includes("id")
+        ? "director_id"
+        : file.name.toLowerCase().includes("registration")
+        ? "registration"
+        : "other";
+
+      await advertiserApi.uploadKyc(file, docType);
+      await loadAdvertiser();
+    } finally {
+      setIsUploading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
@@ -202,13 +232,24 @@ const SettingsPage: React.FC = () => {
             title="KYC Documents"
             subtitle="Your verification documents"
             action={
-              <Button
-                variant="outline"
-                size="sm"
-                leftIcon={<Icons.Upload size={16} />}
-              >
-                Upload New
-              </Button>
+              <>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  className="hidden"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  leftIcon={<Icons.Upload size={16} />}
+                  onClick={handleUploadClick}
+                  isLoading={isUploading}
+                >
+                  Upload New
+                </Button>
+              </>
             }
           />
           <div className="space-y-4">

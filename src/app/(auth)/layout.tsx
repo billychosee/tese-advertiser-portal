@@ -99,13 +99,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
             {/* Logo (Original Colors) */}
             <div className="absolute top-10 left-10 flex items-center gap-3">
               <img
-                src="/Tese-Icon.png"
-                alt="Tese Logo"
-                className="w-10 h-10 object-contain"
+                src="/Tese-Light-Logo.png"
+                alt="Tese Light Logo"
+                className="w-24 h-24 object-contain"
               />
-              <span className="text-[#F5F5F5] font-bold tracking-widest text-2xl">
-                TESE
-              </span>
             </div>
           </div>
         )}

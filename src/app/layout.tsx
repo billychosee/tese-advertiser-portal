@@ -5,6 +5,18 @@ import { Providers } from "@/providers";
 export const metadata: Metadata = {
   title: "TESE Advertising Portal",
   description: "Advertiser portal for TESE - Run ads on TESE videos",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon0.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon.png" }],
+    shortcut: [
+      { url: "/favicon.ico" },
+      { url: "/icon0.svg", type: "image/svg+xml" },
+    ],
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

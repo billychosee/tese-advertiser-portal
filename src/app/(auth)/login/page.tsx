@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
@@ -41,11 +42,18 @@ const LoginPage: React.FC = () => {
       </div>
 
       <Card className="shadow-xl w-full max-w-md">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-foreground text-center">
+        <div className="mb-6 text-center">
+          <Image
+            src="/Tese-Icon.png"
+            alt="Tese Logo"
+            width={60}
+            height={60}
+            className="mx-auto mb-4"
+          />
+          <h2 className="text-2xl font-bold text-foreground">
             Welcome Back
           </h2>
-          <p className="text-sm text-muted-foreground mt-1 text-center">
+          <p className="text-sm text-muted-foreground mt-1">
             Enter your credentials to access your account
           </p>
         </div>

@@ -126,8 +126,8 @@ const UsersPage: React.FC = () => {
         <Card padding="sm" className="relative overflow-hidden">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-full bg-gray-100 dark:bg-gray-800">
-                <Icons.Users size={14} className="text-gray-600 dark:text-gray-400" />
+              <div className="p-1.5 rounded-full bg-secondary">
+                <Icons.Users size={14} className="text-foreground" />
               </div>
               <p className="text-xs font-medium text-muted-foreground">Total</p>
             </div>
@@ -138,46 +138,119 @@ const UsersPage: React.FC = () => {
         <Card padding="sm" className="relative overflow-hidden">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-full bg-[#2e7d32]/10">
-                <Icons.Frown size={14} className="text-[#2e7d32]" />
+              <div className="p-1.5 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20">
+                <Icons.Crown
+                  size={14}
+                  className="text-emerald-500 dark:text-emerald-400"
+                />
               </div>
-              <p className="text-xs font-medium text-muted-foreground">Owners</p>
+              <p className="text-xs font-medium text-muted-foreground">
+                Owners
+              </p>
             </div>
           </div>
-          <p className="text-2xl font-bold text-[#2e7d32]">
+          <p className="text-2xl font-bold text-emerald-500 dark:text-emerald-400">
             {users.filter((u) => u.role === "owner").length}
           </p>
         </Card>
         <Card padding="sm" className="relative overflow-hidden">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-full bg-[#f9a825]/10">
-                <Icons.Settings size={14} className="text-[#f9a825]" />
+              <div className="p-1.5 rounded-full bg-amber-500/10 dark:bg-amber-500/20">
+                <Icons.Settings
+                  size={14}
+                  className="text-amber-500 dark:text-amber-400"
+                />
               </div>
-              <p className="text-xs font-medium text-muted-foreground">Managers</p>
+              <p className="text-xs font-medium text-muted-foreground">
+                Managers
+              </p>
             </div>
           </div>
-          <p className="text-2xl font-bold text-[#f9a825]">
+          <p className="text-2xl font-bold text-amber-500 dark:text-amber-400">
             {users.filter((u) => u.role === "manager").length}
           </p>
         </Card>
         <Card padding="sm" className="relative overflow-hidden">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-full bg-[#c62828]/10">
-                <Icons.Eye size={14} className="text-[#c62828]" />
+              <div className="p-1.5 rounded-full bg-red-500/10 dark:bg-red-500/20">
+                <Icons.Eye
+                  size={14}
+                  className="text-red-500 dark:text-red-400"
+                />
               </div>
-              <p className="text-xs font-medium text-muted-foreground">Viewers</p>
+              <p className="text-xs font-medium text-muted-foreground">
+                Viewers
+              </p>
             </div>
           </div>
-          <p className="text-2xl font-bold text-[#c62828]">
+          <p className="text-2xl font-bold text-red-500 dark:text-red-400">
             {users.filter((u) => u.role === "viewer").length}
           </p>
         </Card>
       </div>
 
-      {/* Users Table */}
-      <Card>
+      {/* Users List - Mobile */}
+      <div className="lg:hidden space-y-4">
+        {users.map((user) => (
+          <Card
+            key={user.id}
+            padding="md"
+            className="hover:bg-secondary/50 transition-colors"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                  <span className="text-sm font-medium text-secondary-foreground">
+                    {user.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </span>
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">{user.name}</p>
+                  <p className="text-sm text-muted-foreground">{user.email}</p>
+                </div>
+              </div>
+              <Badge variant={user.isActive ? "success" : "error"}>
+                {user.isActive ? "Active" : "Inactive"}
+              </Badge>
+            </div>
+            <div className="flex items-center justify-between">
+              <Badge variant={getRoleBadgeVariant(user.role)}>
+                {user.role}
+              </Badge>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => handleOpenModal(user)}
+                  className="p-1.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Icons.Edit size={16} />
+                </button>
+                {user.role !== "owner" && (
+                  <button
+                    onClick={() => handleDelete(user)}
+                    className="p-1.5 text-muted-foreground hover:text-destructive"
+                  >
+                    <Icons.Trash size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-border">
+              <p className="text-xs text-muted-foreground">
+                Last login:{" "}
+                {user.lastLoginAt ? formatDateTime(user.lastLoginAt) : "Never"}
+              </p>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      {/* Users Table - Desktop */}
+      <Card className="hidden lg:block">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -271,7 +344,7 @@ const UsersPage: React.FC = () => {
           title="Role Permissions"
           subtitle="Available roles and their permissions"
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {(["owner", "manager", "viewer"] as UserRole[]).map((role) => (
             <div key={role} className="p-4 bg-secondary rounded-lg">
               <div className="flex items-center gap-2 mb-3">
@@ -376,17 +449,34 @@ const UsersPage: React.FC = () => {
             <label className="block text-sm font-medium text-foreground mb-2">
               Role
             </label>
-            <select
-              value={formData.role}
-              onChange={(e) =>
-                setFormData({ ...formData, role: e.target.value as UserRole })
-              }
-              className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground"
-            >
-              <option value="owner">Owner</option>
-              <option value="manager">Manager</option>
-              <option value="viewer">Viewer</option>
-            </select>
+            <div className="relative">
+              <select
+                value={formData.role}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value as UserRole })
+                }
+                className="w-full px-4 py-2.5 border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground appearance-none cursor-pointer"
+              >
+                <option value="owner" className="py-2 rounded-lg bg-background">
+                  Owner
+                </option>
+                <option
+                  value="manager"
+                  className="py-2 rounded-lg bg-background"
+                >
+                  Manager
+                </option>
+                <option
+                  value="viewer"
+                  className="py-2 rounded-lg bg-background"
+                >
+                  Viewer
+                </option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-muted-foreground">
+                <Icons.ChevronDown size={16} />
+              </div>
+            </div>
           </div>
           <div className="flex gap-3 pt-4">
             <Button

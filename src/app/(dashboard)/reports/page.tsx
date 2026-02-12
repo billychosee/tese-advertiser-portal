@@ -370,8 +370,43 @@ const ReportsPage: React.FC = () => {
             </div>
           </Card>
 
-          {/* Performance Table */}
-          <Card>
+          {/* Performance Metrics - Mobile Cards */}
+          <div className="lg:hidden space-y-4">
+            <h3 className="font-semibold text-foreground">Detailed Metrics</h3>
+            {filteredCampaignReports.slice(0, 5).map((report) => (
+              <Card key={report.campaignId} padding="md" className="hover:bg-secondary/50 transition-colors">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-medium text-foreground">{report.campaignName}</h4>
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="flex flex-col items-center gap-2 p-2">
+                    <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                      <Icons.Eye size={20} className="text-green-600 dark:text-green-400" />
+                    </div>
+                    <p className="text-lg font-bold text-foreground">{formatNumber(report.impressions)}</p>
+                    <p className="text-xs text-muted-foreground">Impressions</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-2">
+                    <div className="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+                      <Icons.TrendingUp size={20} className="text-yellow-600 dark:text-yellow-400" />
+                    </div>
+                    <p className="text-lg font-bold text-foreground">{formatPercentage(report.ctr)}</p>
+                    <p className="text-xs text-muted-foreground">CTR</p>
+                  </div>
+                  <div className="flex flex-col items-center gap-2 p-2">
+                    <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                      <Icons.Wallet size={20} className="text-red-600 dark:text-red-400" />
+                    </div>
+                    <p className="text-lg font-bold text-foreground">{formatCurrency(report.cpm)}</p>
+                    <p className="text-xs text-muted-foreground">CPM</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Performance Table - Desktop */}
+          <Card className="hidden lg:block">
             <Card.Header
               title="Detailed Metrics"
               subtitle="Campaign performance breakdown"
@@ -500,8 +535,8 @@ const ReportsPage: React.FC = () => {
         </div>
       )}
 
-      {/* Spend Table */}
-      <Card className="mt-6">
+      {/* Spend Table - Desktop */}
+      <Card className="hidden lg:block mt-6">
         <Card.Header
           title="Campaign Spending"
           subtitle="Detailed spend breakdown"
@@ -561,6 +596,49 @@ const ReportsPage: React.FC = () => {
           </table>
         </div>
       </Card>
+
+      {/* Campaign Spending - Mobile Cards */}
+      <div className="lg:hidden mt-6 space-y-4">
+        <h3 className="font-semibold text-foreground">Campaign Spending</h3>
+        {spendReports.map((report) => (
+          <Card key={report.campaignId} padding="md" className="hover:bg-secondary/50 transition-colors">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="font-medium text-foreground">{report.campaignName}</h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleExportCampaign(report.campaignId)}
+                leftIcon={<Icons.Download size={14} />}
+              >
+                Export
+              </Button>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="flex flex-col items-center gap-2 p-2">
+                <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <Icons.Wallet size={20} className="text-green-600 dark:text-green-400" />
+                </div>
+                <p className="text-lg font-bold text-foreground">{formatCurrency(report.totalBudget)}</p>
+                <p className="text-xs text-muted-foreground">Budget</p>
+              </div>
+              <div className="flex flex-col items-center gap-2 p-2">
+                <div className="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+                  <Icons.TrendingUp size={20} className="text-yellow-600 dark:text-yellow-400" />
+                </div>
+                <p className="text-lg font-bold text-foreground">{formatCurrency(report.spent)}</p>
+                <p className="text-xs text-muted-foreground">Spent</p>
+              </div>
+              <div className="flex flex-col items-center gap-2 p-2">
+                <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                  <Icons.Pause size={20} className="text-red-600 dark:text-red-400" />
+                </div>
+                <p className="text-lg font-bold text-foreground">{formatCurrency(report.remaining)}</p>
+                <p className="text-xs text-muted-foreground">Remaining</p>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </DashboardLayout>
   );
 };

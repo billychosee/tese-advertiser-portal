@@ -136,9 +136,9 @@ const NotificationsPage: React.FC = () => {
     <DashboardLayout title="Notifications">
       <div className="min-h-screen bg-background text-foreground space-y-8 selection:bg-primary/30">
         {/* Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <h1 className="text-4xl font-bold tracking-tighter italic uppercase text-foreground">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tighter italic uppercase text-foreground">
               Notifications
             </h1>
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -183,9 +183,9 @@ const NotificationsPage: React.FC = () => {
         {isLoading ? (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="animate-pulse bg-card border-border rounded-[20px] p-6">
+              <Card key={i} className="animate-pulse bg-card border-border rounded-[20px] p-4 sm:p-6">
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-muted rounded-full" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-muted rounded-full" />
                   <div className="flex-1 space-y-2">
                     <div className="h-4 bg-muted rounded w-1/3" />
                     <div className="h-3 bg-muted rounded w-2/3" />
@@ -195,11 +195,11 @@ const NotificationsPage: React.FC = () => {
             ))}
           </div>
         ) : filteredNotifications.length === 0 ? (
-          <Card className="bg-card border-border rounded-[32px] p-12 text-center">
-            <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
-              <Icons.BellOff size={40} className="text-muted-foreground" />
+          <Card className="bg-card border-border rounded-[20px] p-8 sm:p-12 text-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <Icons.BellOff size={32} className="sm:text-40 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-bold tracking-tight text-card-foreground mb-2">
+            <h3 className="text-lg sm:text-xl font-bold tracking-tight text-card-foreground mb-2">
               No Notifications
             </h3>
             <p className="text-muted-foreground text-sm">
@@ -209,22 +209,22 @@ const NotificationsPage: React.FC = () => {
             </p>
           </Card>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {filteredNotifications.map((notification) => {
               const colors = getTypeColors(notification.type);
               return (
                 <Card
                   key={notification.id}
                   className={cn(
-                    "bg-card border-border rounded-[20px] p-6 transition-all duration-200",
+                    "bg-card border-border rounded-xl sm:rounded-[20px] p-4 sm:p-6 transition-all duration-200",
                     !notification.read && "border-l-4 border-l-primary",
                   )}
                 >
-                  <div className="flex items-start gap-5">
+                  <div className="flex items-start gap-3 sm:gap-5">
                     {/* Icon */}
                     <div
                       className={cn(
-                        "p-3 rounded-full flex-shrink-0",
+                        "p-2 sm:p-3 rounded-full flex-shrink-0",
                         colors.light.iconBg,
                         colors.dark.iconBg,
                       )}
@@ -234,11 +234,11 @@ const NotificationsPage: React.FC = () => {
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                        <div className="min-w-0">
                           <h3
                             className={cn(
-                              "text-lg font-bold tracking-tight",
+                              "text-base sm:text-lg font-bold tracking-tight",
                               !notification.read
                                 ? "text-foreground"
                                 : "text-muted-foreground",
@@ -246,33 +246,33 @@ const NotificationsPage: React.FC = () => {
                           >
                             {notification.title}
                           </h3>
-                          <p className="text-sm text-muted-foreground mt-1">
+                          <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
                             {notification.message}
                           </p>
                         </div>
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                        <span className="text-xs text-muted-foreground whitespace-nowrap sm:mt-1">
                           {formatDate(notification.createdAt)}
                         </span>
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className="flex items-center gap-1 flex-shrink-0 sm:ml-2">
                       {!notification.read && (
                         <button
                           onClick={() => markAsRead(notification.id)}
-                          className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
+                          className="p-1.5 sm:p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
                           title="Mark as read"
                         >
-                          <Icons.Check size={18} />
+                          <Icons.Check size={16} className="sm:w-[18px] sm:h-[18px]" />
                         </button>
                       )}
                       <button
                         onClick={() => deleteNotification(notification.id)}
-                        className="p-2 text-muted-foreground hover:text-destructive hover:bg-secondary rounded-lg transition-colors"
+                        className="p-1.5 sm:p-2 text-muted-foreground hover:text-destructive hover:bg-secondary rounded-lg transition-colors"
                         title="Delete"
                       >
-                        <Icons.Trash size={18} />
+                        <Icons.Trash size={16} className="sm:w-[18px] sm:h-[18px]" />
                       </button>
                     </div>
                   </div>
