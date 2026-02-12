@@ -95,22 +95,22 @@ const WalletPage: React.FC = () => {
 
       {/* Balance Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <Card className="lg:col-span-2 bg-gradient-to-br from-primary to-primary-foreground text-primary-foreground">
+        <Card className="lg:col-span-2 bg-gradient-to-br from-emerald-600 to-emerald-800 text-white border-0">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-primary-foreground/80 text-sm font-medium">
+              <p className="text-emerald-100 text-sm font-medium">
                 Available Balance
               </p>
-              <p className="text-4xl font-bold mt-2">
+              <p className="text-4xl font-bold mt-2 text-white">
                 {formatCurrency(wallet?.balance || 0)}
               </p>
-              <p className="text-primary-foreground/80 text-sm mt-2">
+              <p className="text-emerald-200 text-sm mt-2">
                 Updated{" "}
                 {formatDateTime(wallet?.updatedAt || new Date().toISOString())}
               </p>
             </div>
-            <div className="p-4 bg-white/10 rounded-xl flex items-center justify-center">
-              <Icons.Wallet size={32} />
+            <div className="p-4 bg-white/20 rounded-xl flex items-center justify-center">
+              <Icons.Wallet size={32} className="text-white" />
             </div>
           </div>
         </Card>
@@ -260,15 +260,6 @@ const WalletPage: React.FC = () => {
                 ${amount}
               </button>
             ))}
-          </div>
-
-          <div className="p-4 bg-secondary rounded-lg">
-            <p className="text-sm text-secondary-foreground">
-              <strong>Payment Method:</strong> SmatPay (Mock)
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              This is a demo. No real payment will be processed.
-            </p>
           </div>
 
           <div className="flex gap-3">

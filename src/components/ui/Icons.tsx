@@ -13,6 +13,7 @@ import {
   Pause,
   Play,
   Eye,
+  EyeOff,
   Edit,
   Trash2,
   Download,
@@ -27,6 +28,7 @@ import {
   RefreshCw,
   Check,
   AlertCircle,
+  AlertTriangle,
   Info,
   TrendingUp,
   TrendingDown,
@@ -37,6 +39,7 @@ import {
   Moon,
   MoreHorizontal,
   Bell,
+  BellOff,
   Mail,
   Phone,
   MapPin,
@@ -54,6 +57,7 @@ import {
   Share2,
   Heart,
   HeartOff,
+  User,
   Star,
   Flag,
   Archive,
@@ -75,6 +79,9 @@ import {
   ArrowLeftCircle,
   ArrowRightCircle,
   CheckCircle,
+  Loader,
+  Shield,
+  Laptop,
 } from "lucide-react";
 
 export const Icons = {
@@ -90,6 +97,7 @@ export const Icons = {
   Pause: Pause,
   Play: Play,
   Eye: Eye,
+  EyeOff: EyeOff,
   Edit: Edit,
   Trash: Trash2,
   Download: Download,
@@ -114,6 +122,8 @@ export const Icons = {
   Moon: Moon,
   MoreHorizontal: MoreHorizontal,
   Bell: Bell,
+  BellOff: BellOff,
+  AlertTriangle: AlertTriangle,
   Mail: Mail,
   Phone: Phone,
   MapPin: MapPin,
@@ -131,6 +141,7 @@ export const Icons = {
   Share: Share2,
   Heart: Heart,
   HeartOff: HeartOff,
+  User: User,
   Star: Star,
   Flag: Flag,
   Archive: Archive,
@@ -152,6 +163,9 @@ export const Icons = {
   ArrowLeftCircle: ArrowLeftCircle,
   ArrowRightCircle: ArrowRightCircle,
   CheckCircle: CheckCircle,
+  Loader: Loader,
+  Shield: Shield,
+  Laptop: Laptop,
 };
 
 export type IconNames = keyof typeof Icons;

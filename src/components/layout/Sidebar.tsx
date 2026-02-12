@@ -25,7 +25,7 @@ const navItems: NavItem[] = [
 
 const Sidebar: React.FC = () => {
   const pathname = usePathname();
-  const { isCollapsed, toggleSidebar } = useSidebar();
+  const { isCollapsed, toggleSidebar, campaignCount } = useSidebar();
   const { theme } = useTheme();
 
   const fullLogo =
@@ -98,10 +98,10 @@ const Sidebar: React.FC = () => {
                   </span>
                 )}
 
-                {/* Notification Badge Style from reference */}
-                {item.name === "Campaigns" && !isCollapsed && (
-                  <span className="ml-auto relative z-10 bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full">
-                    12
+                {/* Notification Badge */}
+                {item.name === "Campaigns" && !isCollapsed && campaignCount > 0 && (
+                  <span className="ml-auto relative z-10 bg-primary text-primary-foreground text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
+                    {campaignCount}
                   </span>
                 )}
               </Link>

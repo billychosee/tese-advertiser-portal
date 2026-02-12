@@ -7,7 +7,7 @@ import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { Icons } from "@/components/ui/Icons";
-import { categoriesApi, creatorsApi } from "@/services/api";
+import { categoriesApi, creatorsApi, campaignsApi } from "@/services/api";
 import {
   Category,
   Creator,
@@ -38,6 +38,24 @@ const CreateCampaignPage: React.FC = () => {
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
   const [videoDuration, setVideoDuration] = useState<number | null>(null);
   const [videoError, setVideoError] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
+
+  // Clean up video preview URL to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (videoPreview) {
+        URL.revokeObjectURL(videoPreview);
+      }
+    };
+  }, [videoPreview]);
+
+  // Sync budget with calculated budget
+  useEffect(() => {
+    const calculated = calculateBudget();
+    if (calculated > 0 && calculated !== budget) {
+      setBudget(calculated);
+    }
+  }, [targetType, targetValue, durationDays]);
 
   useEffect(() => {
     loadData();
@@ -114,6 +132,9 @@ const CreateCampaignPage: React.FC = () => {
   };
 
   const removeVideo = () => {
+    if (videoPreview) {
+      URL.revokeObjectURL(videoPreview);
+    }
     setVideoFile(null);
     setVideoPreview(null);
     setVideoDuration(null);
@@ -132,8 +153,22 @@ const CreateCampaignPage: React.FC = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      // Simulate campaign creation
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Create the campaign
+      await campaignsApi.create({
+        name,
+        description,
+        type: campaignType,
+        categoryIds: selectedCategories,
+        creatorIds: selectedCreators,
+        targetUrl,
+        budget,
+        durationDays,
+        targetType,
+        targetValue,
+        placements,
+        duration: videoDuration || 15,
+        videoUrl: videoPreview || "",
+      });
       router.push("/campaigns");
     } finally {
       setIsLoading(false);
@@ -454,6 +489,14 @@ const CreateCampaignPage: React.FC = () => {
                 </span>
               </div>
             )}
+
+            {/* Validation Error */}
+            {validationError && (
+              <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
+                <Icons.AlertCircle size={16} />
+                {validationError}
+              </div>
+            )}
           </div>
 
           {/* Placement */}
@@ -490,7 +533,19 @@ const CreateCampaignPage: React.FC = () => {
               Back
             </Button>
             <Button
-              onClick={() => setStep(4)}
+              onClick={() => {
+                // Validate required fields
+                if (!name.trim()) {
+                  setValidationError("Please enter a campaign name");
+                  return;
+                }
+                if (!videoFile) {
+                  setValidationError("Please upload a video");
+                  return;
+                }
+                setValidationError(null);
+                setStep(4);
+              }}
               rightIcon={<Icons.ChevronRight size={16} />}
             >
               Next Step

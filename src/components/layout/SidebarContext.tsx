@@ -6,12 +6,15 @@ interface SidebarContextType {
   isCollapsed: boolean;
   toggleSidebar: () => void;
   setCollapsed: (collapsed: boolean) => void;
+  campaignCount: number;
+  setCampaignCount: (count: number) => void;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [campaignCount, setCampaignCount] = useState(0);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -22,7 +25,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar, setCollapsed }}>
+    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar, setCollapsed, campaignCount, setCampaignCount }}>
       {children}
     </SidebarContext.Provider>
   );

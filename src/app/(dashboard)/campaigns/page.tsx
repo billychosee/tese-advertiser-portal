@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useSidebar } from "@/components/layout/SidebarContext";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -12,7 +13,7 @@ import { campaignsApi } from "@/services/api";
 import { formatCurrency, formatNumber, formatDate, cn } from "@/utils";
 import { Campaign, CampaignStatus } from "@/types";
 
-const CampaignsPage: React.FC = () => {
+const CampaignsPageContent: React.FC = () => {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -26,11 +27,30 @@ const CampaignsPage: React.FC = () => {
 
   useEffect(() => {
     loadCampaigns();
+
+    // Refresh campaigns when page becomes visible again
+    // (e.g., after navigating back from create page)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        loadCampaigns();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", loadCampaigns);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", loadCampaigns);
+    };
   }, []);
+
+  const { setCampaignCount } = useSidebar();
 
   const loadCampaigns = async () => {
     const data = await campaignsApi.getAll();
     setCampaigns(data);
+    setCampaignCount(data.length);
   };
 
   const handlePause = async (campaign: Campaign) => {
@@ -84,8 +104,7 @@ const CampaignsPage: React.FC = () => {
   };
 
   return (
-    <DashboardLayout title="Campaigns">
-      {/* Header */}
+    <>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Campaigns</h1>
@@ -127,7 +146,6 @@ const CampaignsPage: React.FC = () => {
             <option value="paused">Paused</option>
             <option value="pending">Pending</option>
             <option value="completed">Completed</option>
-            <option value="suspended">Suspended</option>
           </select>
         </div>
       </Card>
@@ -212,10 +230,7 @@ const CampaignsPage: React.FC = () => {
                   Clicks
                 </th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
-                  Budget
-                </th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
-                  Spend
+                  Budget Spent
                 </th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-foreground bg-secondary/50">
                   Actions
@@ -284,9 +299,6 @@ const CampaignsPage: React.FC = () => {
                   </td>
                   <td className="py-4 px-4 text-muted-foreground">
                     {formatNumber(campaign.clicks)}
-                  </td>
-                  <td className="py-4 px-4 text-muted-foreground">
-                    {formatCurrency(campaign.budget)}
                   </td>
                   <td className="py-4 px-4 text-muted-foreground">
                     {formatCurrency(campaign.spend)}
@@ -501,6 +513,14 @@ const CampaignsPage: React.FC = () => {
           </div>
         </div>
       </Modal>
+    </>
+  );
+};
+
+const CampaignsPage: React.FC = () => {
+  return (
+    <DashboardLayout title="Campaigns">
+      <CampaignsPageContent />
     </DashboardLayout>
   );
 };

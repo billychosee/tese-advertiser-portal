@@ -84,6 +84,7 @@ const LoginPage: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
             required
+            showPasswordToggle
           />
 
           <div className="flex items-center justify-between">

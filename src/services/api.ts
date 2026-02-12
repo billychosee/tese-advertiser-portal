@@ -454,6 +454,31 @@ export const advertiserApi = {
     });
     return mockAdvertiser;
   },
+
+  changePassword: async (currentPassword: string, newPassword: string): Promise<void> => {
+    await delay(500);
+    // Simulate password change
+    if (currentPassword === newPassword) {
+      throw new Error("New password must be different from current password");
+    }
+  },
+
+  enable2FA: async (): Promise<{ secret: string; qrCode: string }> => {
+    await delay(500);
+    return {
+      secret: "JBSWY3DPEHPK3PXP",
+      qrCode: "otpauth://totp/TESE:demo@example.com?secret=JBSWY3DPEHPK3PXP&issuer=TESE",
+    };
+  },
+
+  verify2FA: async (code: string): Promise<boolean> => {
+    await delay(300);
+    return code.length === 6;
+  },
+
+  signOutAllSessions: async (): Promise<void> => {
+    await delay(500);
+  },
 };
 
 // ============================================

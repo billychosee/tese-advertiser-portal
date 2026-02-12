@@ -523,6 +523,7 @@ const RegisterDetailsPage: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Min 8 chars"
+                    showPasswordToggle
                   />
                   <Input
                     label="Confirm Password"
@@ -530,6 +531,7 @@ const RegisterDetailsPage: React.FC = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm"
+                    showPasswordToggle
                   />
                 </div>
               </div>
